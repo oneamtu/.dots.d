@@ -82,7 +82,7 @@ fun SetupVAM()
     execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '
                 \       shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
   endif
-  call vam#ActivateAddons(['surround', 'ctrlp', 'delimitMate', 'closetag', 'The_NERD_Commenter', 'fugitive', 'Solarized', 'Syntastic', 'snipmate', 'rails', 'repeat', 'abolish', 'rsi', 'taglist', 'github:ervandew/supertab', 'multiselect', 'Conque_Shell', 'github:skwp/vim-ruby-conque', 'LustyJuggler', 'bufkill', 'github:airblade/vim-gitgutter', 'vim-seek', 'camelcasemotion', 'scss-syntax', 'github:skammer/vim-css-color', 'github:greyblake/vim-preview', 'vim-coffee-script'], {'auto_install' : 1})
+  call vam#ActivateAddons(['surround', 'ctrlp', 'delimitMate', 'closetag', 'The_NERD_Commenter', 'fugitive', 'Solarized', 'Syntastic', 'snipmate', 'rails', 'repeat', 'abolish', 'rsi', 'taglist', 'github:ervandew/supertab', 'multiselect', 'Conque_Shell', 'github:skwp/vim-ruby-conque', 'LustyJuggler', 'bufkill', 'github:airblade/vim-gitgutter', 'vim-seek', 'camelcasemotion', 'scss-syntax', 'github:skammer/vim-css-color', 'github:greyblake/vim-preview', 'vim-coffee-script', 'github:terryma/vim-multiple-cursors', 'PA_ruby_ri'], {'auto_install' : 1})
 endfun
 call SetupVAM()
 
@@ -170,6 +170,10 @@ nmap <silent> <Leader>l :call RunRspecCurrentLineConque()<CR>
 nmap <silent> ,<Leader>j :call RunLastConqueCommand()<CR>
 
 nmap <silent> <Leader>f :CtrlP<CR>
+
+" quickfix jump bindings
+nmap <silent> <Leader>n :cn<CR>
+nmap <silent> <Leader>N :cp<CR>
 
 " open file from same directory
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
