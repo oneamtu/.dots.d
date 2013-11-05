@@ -67,7 +67,7 @@ fun! StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd FileType c,cpp,java,php,ruby,python autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
+autocmd FileType c,cpp,java,php,ruby,python,sql autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
 
 " VAM
 set nocompatible | filetype indent plugin on | syn on
@@ -82,7 +82,7 @@ fun SetupVAM()
     execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '
                 \       shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
   endif
-  call vam#ActivateAddons(['surround', 'ctrlp', 'delimitMate', 'closetag', 'The_NERD_Commenter', 'fugitive', 'Solarized', 'Syntastic', 'snipmate', 'rails', 'repeat', 'abolish', 'rsi', 'taglist', 'github:ervandew/supertab', 'multiselect', 'Conque_Shell', 'github:skwp/vim-ruby-conque', 'LustyJuggler', 'bufkill', 'github:airblade/vim-gitgutter', 'vim-seek', 'camelcasemotion', 'scss-syntax', 'github:skammer/vim-css-color', 'github:greyblake/vim-preview', 'vim-coffee-script', 'github:terryma/vim-multiple-cursors', 'PA_ruby_ri', 'dbext'], {'auto_install' : 1})
+  call vam#ActivateAddons(['surround', 'ctrlp', 'delimitMate', 'closetag', 'The_NERD_Commenter', 'fugitive', 'Solarized', 'Syntastic', 'snipmate', 'rails', 'repeat', 'abolish', 'rsi', 'taglist', 'github:ervandew/supertab', 'multiselect', 'Conque_Shell', 'github:skwp/vim-ruby-conque', 'LustyJuggler', 'bufkill', 'github:airblade/vim-gitgutter', 'vim-seek', 'camelcasemotion', 'scss-syntax', 'github:skammer/vim-css-color', 'github:greyblake/vim-preview', 'vim-coffee-script', 'github:terryma/vim-multiple-cursors', 'PA_ruby_ri', 'dbext', 'github:freitass/todo.txt-vim'], {'auto_install' : 1})
 endfun
 call SetupVAM()
 
@@ -170,3 +170,23 @@ nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 
 " replace visual selection
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
+" Qargs
+command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
+function! QuickfixFilenames()
+  " Building a hash ensures we get each buffer only once
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(values(buffer_numbers))
+endfunction
+
+
+" live functionality
+function EvalLiveRuby() range
+  let text = [join(getline(a:firstline, a:lastline), ';')]
+  return writefile(text, '/tmp/live-rb')
+endfunction
+
+map <Leader>x :call EvalLiveRuby()<enter>
