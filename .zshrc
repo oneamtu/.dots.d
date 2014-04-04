@@ -39,14 +39,14 @@ COMPLETION_WAITING_DOTS="true"
 
 # jump plugin
 export MARKPATH=$HOME/.marks
-function jump { 
+function jump {
 cd -P $MARKPATH/$1 2>/dev/null || echo "No such mark: $1"
   }
-  function mark { 
+  function mark {
   mkdir -p $MARKPATH; ln -s $(pwd) $MARKPATH/$1
 }
-function unmark { 
-rm -i $MARKPATH/$1 
+function unmark {
+rm -i $MARKPATH/$1
   }
   function marks {
   ls -l $MARKPATH | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
@@ -72,15 +72,20 @@ export PATH=/home/oneamtu/.rbenv/shims:/home/oneamtu/.rbenv/bin:/usr/local/herok
 export LOCAL_GEMS_DIR=~/
 export EDITOR=gvim
 
-eval "$(hub alias -s)"
+# eval "$(hub alias -s)"
 
 # stop it from annoying autocorrects
 unsetopt correct_all
 
 bindkey 'jj' vi-cmd-mode
+bindkey 'kk' vi-cmd-mode
 bindkey '^j' undefined-key
 bindkey '^k' undefined-key
 bindkey '^l' undefined-key
 bindkey '^h' undefined-key
 
 bindkey '^r' history-incremental-search-backward
+
+alias tmux="TERM=screen-256color-bce tmux"
+
+alias todo="vim ~/todo.txt"

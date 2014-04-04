@@ -43,10 +43,10 @@ nnoremap j gj
 nnoremap k gk
 
 " Easy window navigation
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 " sudo save a file after editing it
 cmap w!! w !sudo tee % >/dev/null
@@ -60,14 +60,14 @@ vmap <C-C> "+y
 filetype plugin on
 
 " Strip trailing whitespaces
-fun! StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
+" fun! StripTrailingWhitespaces()
+    " let l = line(".")
+    " let c = col(".")
+    " %s/\s\+$//e
+    " call cursor(l, c)
+" endfun
 
-autocmd FileType c,cpp,java,php,ruby,python,sql autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
+" autocmd FileType c,cpp,java,php,ruby,python,sql autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
 
 " VAM
 set nocompatible | filetype indent plugin on | syn on
@@ -82,7 +82,7 @@ fun SetupVAM()
     execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '
                 \       shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
   endif
-  call vam#ActivateAddons(['surround', 'ctrlp', 'delimitMate', 'closetag', 'The_NERD_Commenter', 'fugitive', 'Solarized', 'Syntastic', 'snipmate', 'rails', 'repeat', 'abolish', 'rsi', 'taglist', 'github:ervandew/supertab', 'multiselect', 'Conque_Shell', 'github:skwp/vim-ruby-conque', 'LustyJuggler', 'bufkill', 'github:airblade/vim-gitgutter', 'vim-seek', 'camelcasemotion', 'scss-syntax', 'github:skammer/vim-css-color', 'github:greyblake/vim-preview', 'vim-coffee-script', 'github:terryma/vim-multiple-cursors', 'PA_ruby_ri', 'dbext', 'github:freitass/todo.txt-vim'], {'auto_install' : 1})
+  call vam#ActivateAddons(['surround', 'ctrlp', 'editorconfig-vim', 'delimitMate', 'closetag', 'The_NERD_Commenter', 'fugitive', 'Solarized', 'Syntastic', 'snipmate', 'rails', 'repeat', 'abolish', 'greplace', 'rsi', 'taglist', 'multiselect', 'Conque_Shell', 'github:skwp/vim-ruby-conque', 'bufkill', 'github:airblade/vim-gitgutter', 'vim-seek', 'camelcasemotion', 'scss-syntax', 'github:skammer/vim-css-color', 'github:greyblake/vim-preview', 'vim-coffee-script', 'github:terryma/vim-multiple-cursors', 'PA_ruby_ri', 'dbext', 'github:freitass/todo.txt-vim', 'github:guns/vim-clojure-static', 'github:tpope/vim-classpath', 'github:tpope/vim-fireplace', 'github:ervandew/supertab', 'vim-scala', 'github:christoomey/vim-tmux-navigator'], {'auto_install' : 1})
 endfun
 call SetupVAM()
 
@@ -90,6 +90,7 @@ call SetupVAM()
 syntax on
 set background=dark
 colorscheme solarized
+se t_Co=256
 
 " Fixes signs for vim-gitgutter
 highlight clear SignColumn
@@ -103,36 +104,36 @@ sunmap b
 sunmap e
 
 " Rudimentary session management
-if version >= 700
-   set sessionoptions=blank,buffers,curdir,tabpages,winpos,folds
-endif
+" if version >= 700
+   " set sessionoptions=blank,buffers,curdir,tabpages,winpos,folds
+" endif
 
-if !exists("s:sessionautoloaded")
-   let s:sessionautoloaded = 0
-endif
+" if !exists("s:sessionautoloaded")
+   " let s:sessionautoloaded = 0
+" endif
 
-if filereadable('./.session.vim')
-   if s:sessionautoloaded == 0
-      source ./.session.vim
-      let s:sessionautoloaded = 1
-   endif
-endif
+" if filereadable('./.session.vim')
+   " if s:sessionautoloaded == 0
+      " source ./.session.vim
+      " let s:sessionautoloaded = 1
+   " endif
+" endif
 
-function! SaveSession()
-   if s:sessionautoloaded == 1
-      mksession! ./.session.vim
-      echo "Session saved."
-   else
-      echo "No session to save. Please create session with ':mksession .session.vim' first!"
-   endif
-endfunction
+" function! SaveSession()
+   " if s:sessionautoloaded == 1
+      " mksession! ./.session.vim
+      " echo "Session saved."
+   " else
+      " echo "No session to save. Please create session with ':mksession .session.vim' first!"
+   " endif
+" endfunction
 
-" Session is saved with ss ( is  by default)
-nmap  ss :call SaveSession()
+" " Session is saved with ss ( is  by default)
+" nmap  ss :call SaveSession()
 
-" Uncomment the following like if you want to save session(s) automatically on
-" exit.
-autocmd VimLeave * call SaveSession()
+" " Uncomment the following like if you want to save session(s) automatically on
+" " exit.
+" autocmd VimLeave * call SaveSession()
 
 " Automatically open, but do not go to (if there are errors) the quickfix /
 " location list window, or close it when is has become empty.
@@ -183,10 +184,12 @@ function! QuickfixFilenames()
 endfunction
 
 
-" live functionality
-function EvalLiveRuby() range
-  let text = [join(getline(a:firstline, a:lastline), ';')]
-  return writefile(text, '/tmp/live-rb')
-endfunction
+" " live functionality
+" function EvalLiveRuby() range
+  " let text = [join(getline(a:firstline, a:lastline), ';')]
+  " return writefile(text, '/tmp/live-rb')
+" endfunction
 
-map <Leader>x :call EvalLiveRuby()<enter>
+" map <Leader>x :call EvalLiveRuby()<enter>
+
+set statusline=%f%w%m%h%1*%r%2*%{VarExists('b:devpath','<Rel>')}%3*%{VarExists('b:relpath','<Dev>')}%{XLockStat()}%=%-15(%l,%c%V%)%P"
