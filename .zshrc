@@ -70,7 +70,7 @@ source $ZSH/oh-my-zsh.sh
 export PATH=/home/oneamtu/.rbenv/shims:/home/oneamtu/.rbenv/bin:/usr/local/heroku/bin:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/oneamtu/apps/bin:$PATH
 
 export LOCAL_GEMS_DIR=~/
-export EDITOR=gvim
+export EDITOR=vim
 
 # eval "$(hub alias -s)"
 
