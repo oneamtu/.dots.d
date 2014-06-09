@@ -18,6 +18,7 @@ set ignorecase
 set hlsearch
 set incsearch
 set expandtab
+set ls=2 " Always show status line
 
 " bash-like tabbing
 set wildmode=longest,list,full
@@ -69,10 +70,12 @@ filetype plugin on
 
 " autocmd FileType c,cpp,java,php,ruby,python,sql autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
 
+" runtime macros/matchit.vim
+
 " VAM
 set nocompatible | filetype indent plugin on | syn on
 
-fun SetupVAM()
+fun! SetupVAM()
   let c = get(g:, 'vim_addon_manager', {})
   let g:vim_addon_manager = c
   let c.plugin_root_dir = expand('$HOME') . '/.vim/vim-addons'
@@ -82,7 +85,60 @@ fun SetupVAM()
     execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '
                 \       shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
   endif
-  call vam#ActivateAddons(['surround', 'ctrlp', 'editorconfig-vim', 'delimitMate', 'closetag', 'The_NERD_Commenter', 'fugitive', 'Solarized', 'Syntastic', 'snipmate', 'rails', 'repeat', 'abolish', 'greplace', 'rsi', 'taglist', 'multiselect', 'Conque_Shell', 'github:skwp/vim-ruby-conque', 'bufkill', 'github:airblade/vim-gitgutter', 'vim-seek', 'camelcasemotion', 'scss-syntax', 'github:skammer/vim-css-color', 'github:greyblake/vim-preview', 'vim-coffee-script', 'github:terryma/vim-multiple-cursors', 'PA_ruby_ri', 'dbext', 'github:freitass/todo.txt-vim', 'github:guns/vim-clojure-static', 'github:tpope/vim-classpath', 'github:tpope/vim-fireplace', 'github:ervandew/supertab', 'vim-scala', 'github:christoomey/vim-tmux-navigator'], {'auto_install' : 1})
+  call vam#ActivateAddons([], {'auto_install' : 1})
+  " git
+  VAMActivate fugitive
+  " universal language file rules
+  VAMActivate editorconfig-vim
+  " UI
+  VAMActivate github:airblade/vim-gitgutter
+  VAMActivate github:Lokaltog/vim-powerline
+  VAMActivate Syntastic
+  " Theme
+  VAMActivate Solarized
+  " Editing
+  " VAMActivate abolish
+  VAMActivate github:ervandew/supertab
+  VAMActivate The_NERD_Commenter
+  VAMActivate greplace
+  " VAMActivate delimitMate
+  " VAMActivate github:terryma/vim-multiple-cursors
+  " Navigating
+  VAMActivate ctrlp
+  VAMActivate camelcasemotion
+  VAMActivate github:christoomey/vim-tmux-navigator
+  " Other syntax
+  " VAMActivate scss-syntax
+  " VAMActivate vim-coffee-script
+  VAMActivate github:freitass/todo.txt-vim
+  " Ruby
+  VAMActivate Conque_Shell github:skwp/vim-ruby-conque
+  VAMActivate endwise
+
+  " Old, activate w/ caution and as needed
+  " VAMActivate multiselect
+  " 'surround',
+  " 'snipmate',
+  " 'rails',
+  " 'repeat',
+  " 'rsi',
+  " 'taglist',
+  " 'bufkill',
+  " 'vim-seek',
+  " 'github:skammer/vim-css-color',
+  " 'github:greyblake/vim-preview',
+  " 'PA_ruby_ri',
+  " 'dbext',
+  " 'github:guns/vim-clojure-static',
+  " 'github:tpope/vim-classpath',
+  " 'github:tpope/vim-fireplace',
+  " 'vim-scala',
+  " 'Switch'
+  " 'github:jgdavey/vim-blockle',
+  " 'textobj-user',
+  " 'textobj-rubyblock',
+  " 'vim-ruby',
+  " 'closetag',
 endfun
 call SetupVAM()
 
@@ -151,9 +207,10 @@ let NERDSpaceDelims=1
 
 " ruby conque runner
 let g:ruby_conque_rspec_runner='zeus rspec'
+let g:ruby_conque_rspec_options=''
 
 " snipmate rebinding
-let g:snips_trigger_key='<c-space>'
+" let g:snips_trigger_key='<c-space>'
 
 " Ruby conque shortcuts
 nmap <silent> <Leader>j :call RunRspecCurrentFileConque()<CR>
@@ -192,4 +249,14 @@ endfunction
 
 " map <Leader>x :call EvalLiveRuby()<enter>
 
-set statusline=%f%w%m%h%1*%r%2*%{VarExists('b:devpath','<Rel>')}%3*%{VarExists('b:relpath','<Dev>')}%{XLockStat()}%=%-15(%l,%c%V%)%P"
+" center search display
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#z
+
+" keep selection after in/outdent
+vnoremap < <gv
+vnoremap > >gv
