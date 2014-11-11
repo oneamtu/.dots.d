@@ -44,10 +44,10 @@ nnoremap j gj
 nnoremap k gk
 
 " Easy window navigation
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+" nnoremap <C-h> <C-w>h
+" nnoremap <C-j> <C-w>j
+" nnoremap <C-k> <C-w>k
+" nnoremap <C-l> <C-w>l
 
 " sudo save a file after editing it
 cmap w!! w !sudo tee % >/dev/null
@@ -88,6 +88,8 @@ fun! SetupVAM()
   call vam#ActivateAddons([], {'auto_install' : 1})
   " git
   VAMActivate fugitive
+  VAMActivate github:junkblocker/patchreview-vim
+  VAMActivate github:codegram/vim-codereview
   " universal language file rules
   VAMActivate editorconfig-vim
   " UI
@@ -97,29 +99,34 @@ fun! SetupVAM()
   " Theme
   VAMActivate Solarized
   " Editing
-  " VAMActivate abolish
+  VAMActivate abolish
   VAMActivate github:ervandew/supertab
   VAMActivate The_NERD_Commenter
   VAMActivate greplace
-  " VAMActivate delimitMate
-  " VAMActivate github:terryma/vim-multiple-cursors
+  VAMActivate delimitMate
+  VAMActivate github:terryma/vim-multiple-cursors
+  VAMActivate surround
+  VAMActivate YankRing
   " Navigating
   VAMActivate ctrlp
   VAMActivate camelcasemotion
   VAMActivate github:christoomey/vim-tmux-navigator
+  VAMActivate ag
   " Other syntax
-  " VAMActivate scss-syntax
-  " VAMActivate vim-coffee-script
+  VAMActivate scss-syntax
+  VAMActivate vim-coffee-script
   VAMActivate github:freitass/todo.txt-vim
+  VAMActivate sql_iabbr
+  VAMActivate changesqlcase
   " Ruby
   VAMActivate Conque_Shell github:skwp/vim-ruby-conque
+  VAMActivate github:jgdavey/vim-blockle
+  VAMActivate github:danchoi/ri.vim
   VAMActivate endwise
+  VAMActivate rails
 
   " Old, activate w/ caution and as needed
-  " VAMActivate multiselect
-  " 'surround',
   " 'snipmate',
-  " 'rails',
   " 'repeat',
   " 'rsi',
   " 'taglist',
@@ -134,7 +141,6 @@ fun! SetupVAM()
   " 'github:tpope/vim-fireplace',
   " 'vim-scala',
   " 'Switch'
-  " 'github:jgdavey/vim-blockle',
   " 'textobj-user',
   " 'textobj-rubyblock',
   " 'vim-ruby',
@@ -217,6 +223,13 @@ nmap <silent> <Leader>j :call RunRspecCurrentFileConque()<CR>
 nmap <silent> <Leader>l :call RunRspecCurrentLineConque()<CR>
 nmap <silent> ,<Leader>j :call RunLastConqueCommand()<CR>
 
+" let g:rspec_command = "!zeus rspec {spec}"
+
+" nmap <Leader>t :call RunCurrentSpecFile()<CR>
+" nmap <Leader>s :call RunNearestSpec()<CR>
+" nmap <Leader>l :call RunLastSpec()<CR>
+" nmap <Leader>a :call RunAllSpecs()<CR>
+
 nmap <silent> <Leader>f :CtrlP<CR>
 
 " quickfix jump bindings
@@ -227,7 +240,11 @@ nmap <silent> <Leader>N :cp<CR>
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 
 " replace visual selection
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+vnoremap <Leader>r "hy:%Subvert/<C-r>h//gc<left><left><left>
+nnoremap <Leader>r "hyiw:%Subvert/<C-r>h//gc<left><left><left>
+
+vnoremap <C-g> "hy:Ggrep <C-r>h
+nnoremap <C-g> "hyiw:Ggrep <C-r>h
 
 " Qargs
 command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
@@ -239,6 +256,8 @@ function! QuickfixFilenames()
   endfor
   return join(values(buffer_numbers))
 endfunction
+
+command! -nargs=0 -bar Tig execute '! tig %'
 
 
 " " live functionality

@@ -86,6 +86,7 @@ bindkey '^h' undefined-key
 
 bindkey '^r' history-incremental-search-backward
 
-alias tmux="TERM=screen-256color-bce tmux"
+export TERM=xterm-256color
+[ -n "$TMUX" ] && export TERM=screen-256color
 
 alias todo="vim ~/todo.txt"
