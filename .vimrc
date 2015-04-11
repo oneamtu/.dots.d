@@ -1,12 +1,3 @@
-" leader
-let mapleader = ","
-
-" key maps
-imap jj <Esc>
-imap jk <Esc>
-imap kj <Esc>
-imap kk <Esc>
-
 set hidden
 set tabstop=2
 set autoindent
@@ -39,16 +30,30 @@ set noswapfile
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
+" leader
+let mapleader = ","
+
+" key maps
+imap jj <Esc>
+imap jk <Esc>
+imap kj <Esc>
+imap kk <Esc>
+
 nnoremap ; :
 nnoremap j gj
 nnoremap k gk
 
-" Easy window navigation
-" nnoremap <C-h> <C-w>h
-" nnoremap <C-j> <C-w>j
-" nnoremap <C-k> <C-w>k
-" nnoremap <C-l> <C-w>l
+" center search display
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#z
 
+" keep selection after in/outdent
+vnoremap < <gv
+vnoremap > >gv
 " sudo save a file after editing it
 cmap w!! w !sudo tee % >/dev/null
 
@@ -123,6 +128,7 @@ fun! SetupVAM()
   VAMActivate github:tmux-plugins/vim-tmux
   VAMActivate github:honza/dockerfile.vim
   " Ruby
+  VAMActivate vim-ruby
   VAMActivate Conque_Shell github:skwp/vim-ruby-conque
   VAMActivate github:jgdavey/vim-blockle
   VAMActivate github:danchoi/ri.vim
@@ -175,41 +181,6 @@ sunmap w
 sunmap b
 sunmap e
 
-" Rudimentary session management
-" if version >= 700
-   " set sessionoptions=blank,buffers,curdir,tabpages,winpos,folds
-" endif
-
-" if !exists("s:sessionautoloaded")
-   " let s:sessionautoloaded = 0
-" endif
-
-" if filereadable('./.session.vim')
-   " if s:sessionautoloaded == 0
-      " source ./.session.vim
-      " let s:sessionautoloaded = 1
-   " endif
-" endif
-
-" function! SaveSession()
-   " if s:sessionautoloaded == 1
-      " mksession! ./.session.vim
-      " echo "Session saved."
-   " else
-      " echo "No session to save. Please create session with ':mksession .session.vim' first!"
-   " endif
-" endfunction
-
-" " Session is saved with ss ( is  by default)
-" nmap  ss :call SaveSession()
-
-" " Uncomment the following like if you want to save session(s) automatically on
-" " exit.
-" autocmd VimLeave * call SaveSession()
-
-" Automatically open, but do not go to (if there are errors) the quickfix /
-" location list window, or close it when is has become empty.
-"
 " Note: Must allow nesting of autocmds to enable any customizations for quickfix
 " buffers.
 " Note: Normally, :cwindow jumps to the quickfix window if the command opens it
@@ -237,13 +208,7 @@ nmap <silent> <Leader>j :call RunRspecCurrentFileConque()<CR>
 nmap <silent> <Leader>l :call RunRspecCurrentLineConque()<CR>
 nmap <silent> ,<Leader>j :call RunLastConqueCommand()<CR>
 
-" let g:rspec_command = "!zeus rspec {spec}"
-
-" nmap <Leader>t :call RunCurrentSpecFile()<CR>
-" nmap <Leader>s :call RunNearestSpec()<CR>
-" nmap <Leader>l :call RunLastSpec()<CR>
-" nmap <Leader>a :call RunAllSpecs()<CR>
-
+" CtrlP shortcut
 nmap <silent> <Leader>f :CtrlP<CR>
 
 " quickfix jump bindings
@@ -260,6 +225,7 @@ nnoremap <Leader>r "hyiw:%Subvert/<C-r>h//gc<left><left><left>
 vnoremap <C-g> "hy:Ggrep <C-r>h
 nnoremap <C-g> "hyiw:Ggrep <C-r>h
 
+" clipboard yank/paste
 vnoremap <Leader>y "+y
 vnoremap <Leader>p "+p
 
@@ -275,24 +241,3 @@ function! QuickfixFilenames()
 endfunction
 
 command! -nargs=0 -bar Tig execute '! tig %'
-
-
-" " live functionality
-" function EvalLiveRuby() range
-  " let text = [join(getline(a:firstline, a:lastline), ';')]
-  " return writefile(text, '/tmp/live-rb')
-" endfunction
-
-" map <Leader>x :call EvalLiveRuby()<enter>
-
-" center search display
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
-nnoremap g* g*zz
-nnoremap g# g#z
-
-" keep selection after in/outdent
-vnoremap < <gv
-vnoremap > >gv
