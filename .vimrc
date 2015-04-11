@@ -75,6 +75,8 @@ filetype plugin on
 " VAM
 set nocompatible | filetype indent plugin on | syn on
 
+set t_RV= " http://bugs.debian.org/608242, http://groups.google.com/group/vim_dev/browse_thread/thread/9770ea844cec3282
+
 fun! SetupVAM()
   let c = get(g:, 'vim_addon_manager', {})
   let g:vim_addon_manager = c
@@ -102,7 +104,7 @@ fun! SetupVAM()
   VAMActivate abolish
   VAMActivate github:ervandew/supertab
   VAMActivate The_NERD_Commenter
-  VAMActivate greplace
+  VAMActivate github:skwp/greplace.vim
   VAMActivate delimitMate
   VAMActivate github:terryma/vim-multiple-cursors
   VAMActivate surround
@@ -118,12 +120,20 @@ fun! SetupVAM()
   VAMActivate github:freitass/todo.txt-vim
   VAMActivate sql_iabbr
   VAMActivate changesqlcase
+  VAMActivate github:tmux-plugins/vim-tmux
+  VAMActivate github:honza/dockerfile.vim
   " Ruby
   VAMActivate Conque_Shell github:skwp/vim-ruby-conque
   VAMActivate github:jgdavey/vim-blockle
   VAMActivate github:danchoi/ri.vim
   VAMActivate endwise
   VAMActivate rails
+  VAMActivate github:KurtPreston/vim-autoformat-rails
+  " clojure & overtone
+  VAMActivate github:guns/vim-clojure-static
+  VAMActivate github:tpope/vim-fireplace
+  VAMActivate github:tpope/vim-classpath
+
 
   " Old, activate w/ caution and as needed
   " 'snipmate',
@@ -136,9 +146,6 @@ fun! SetupVAM()
   " 'github:greyblake/vim-preview',
   " 'PA_ruby_ri',
   " 'dbext',
-  " 'github:guns/vim-clojure-static',
-  " 'github:tpope/vim-classpath',
-  " 'github:tpope/vim-fireplace',
   " 'vim-scala',
   " 'Switch'
   " 'textobj-user',
@@ -156,6 +163,9 @@ se t_Co=256
 
 " Fixes signs for vim-gitgutter
 highlight clear SignColumn
+
+" http://stackoverflow.com/questions/901313
+set synmaxcol=120
 
 " Camel case motion ovrride default maps
 map w <Plug>CamelCaseMotion_w
@@ -211,6 +221,10 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " Add 1 space to comments
 let NERDSpaceDelims=1
 
+" grep and gsearch
+set grepprg=ag
+let g:grep_cmd_opts = '--line-numbers --noheading'
+
 " ruby conque runner
 let g:ruby_conque_rspec_runner='zeus rspec'
 let g:ruby_conque_rspec_options=''
@@ -245,6 +259,9 @@ nnoremap <Leader>r "hyiw:%Subvert/<C-r>h//gc<left><left><left>
 
 vnoremap <C-g> "hy:Ggrep <C-r>h
 nnoremap <C-g> "hyiw:Ggrep <C-r>h
+
+vnoremap <Leader>y "+y
+vnoremap <Leader>p "+p
 
 " Qargs
 command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()

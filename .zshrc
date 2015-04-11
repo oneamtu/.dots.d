@@ -61,8 +61,7 @@ compctl -K _completemarks unmark
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(bundler capistrano cp rbenv gem nyan rails zeus vi-mode)
+plugins=(bundler capistrano cp rbenv gem nyan rails zeus vi-mode tmux)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -89,4 +88,10 @@ bindkey '^r' history-incremental-search-backward
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
 
+alias git-clean="git branch --merged master | grep -v '\* master' | xargs -n 1 git branch -d"
+
 alias todo="vim ~/todo.txt"
+
+export RAILS_MYSQL_USER=rails
+export RAILS_MYSQL_PASSWORD=railspw
+
