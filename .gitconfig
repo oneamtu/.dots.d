@@ -1,0 +1,16 @@
+[user]
+  name = Octavian Neamtu
+  email = octavian.neamtu@annkissam.com
+[color]
+  ui = true
+[alias]
+  ci = commit
+  st = status
+  br = branch
+  co = checkout
+[core]
+  editor = vim -f
+[push]
+  default = current
+[rerere]
+  enabled = true
