@@ -10,7 +10,12 @@
   co = checkout
 [core]
   editor = vim -f
+	excludesfile = ~/.gitignore
 [push]
   default = current
 [rerere]
   enabled = true
+[rebase]
+	autostash = true
+[stash]
+	showPatch = true

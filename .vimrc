@@ -1,3 +1,6 @@
+" leader
+let mapleader = ","
+
 set hidden
 set tabstop=2
 set autoindent
@@ -20,7 +23,7 @@ set undolevels=1000      " use many muchos levels of undo
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                " change the terminal's title
 set novisualbell           " don't beep
-set noerrorbells         " don't beep
+set noerrorbells         " don't beep set scrolloff=999 " center screen on search scroll
 
 " disable backup buffers
 set nobackup
@@ -29,9 +32,6 @@ set noswapfile
 " highlight evil whitespaces
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
-
-" leader
-let mapleader = ","
 
 " key maps
 imap jj <Esc>
@@ -62,21 +62,6 @@ nmap <C-V> "+gP
 imap <C-V> <ESC><C-V>i
 vmap <C-C> "+y
 
-" for snipmate
-filetype plugin on
-
-" Strip trailing whitespaces
-" fun! StripTrailingWhitespaces()
-    " let l = line(".")
-    " let c = col(".")
-    " %s/\s\+$//e
-    " call cursor(l, c)
-" endfun
-
-" autocmd FileType c,cpp,java,php,ruby,python,sql autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
-
-" runtime macros/matchit.vim
-
 " VAM
 set nocompatible | filetype indent plugin on | syn on
 
@@ -104,7 +89,7 @@ fun! SetupVAM()
   VAMActivate github:Lokaltog/vim-powerline
   VAMActivate Syntastic
   " Theme
-  VAMActivate Solarized
+  VAMActivate github:altercation/vim-colors-solarized
   " Editing
   VAMActivate abolish
   VAMActivate github:ervandew/supertab
@@ -123,22 +108,30 @@ fun! SetupVAM()
   VAMActivate scss-syntax
   VAMActivate vim-coffee-script
   VAMActivate github:freitass/todo.txt-vim
+  VAMActivate github:blindFS/vim-taskwarrior
   VAMActivate sql_iabbr
   VAMActivate changesqlcase
   VAMActivate github:tmux-plugins/vim-tmux
   VAMActivate github:honza/dockerfile.vim
+  VAMActivate tpp
+  VAMActivate github:pangloss/vim-javascript github:mxw/vim-jsx
+  VAMActivate github:mrtazz/simplenote.vim
   " Ruby
   VAMActivate vim-ruby
   VAMActivate Conque_Shell github:skwp/vim-ruby-conque
   VAMActivate github:jgdavey/vim-blockle
+  VAMActivate textobj-rubyblock
   VAMActivate github:danchoi/ri.vim
   VAMActivate endwise
   VAMActivate rails
   VAMActivate github:KurtPreston/vim-autoformat-rails
+  VAMActivate github:vim-scripts/matchit.zip
+  VAMActivate github:ecomba/vim-ruby-refactoring
   " clojure & overtone
   VAMActivate github:guns/vim-clojure-static
   VAMActivate github:tpope/vim-fireplace
   VAMActivate github:tpope/vim-classpath
+
 
 
   " Old, activate w/ caution and as needed
@@ -155,20 +148,19 @@ fun! SetupVAM()
   " 'vim-scala',
   " 'Switch'
   " 'textobj-user',
-  " 'textobj-rubyblock',
   " 'vim-ruby',
   " 'closetag',
 endfun
 call SetupVAM()
 
-" Solarized color scheme
-syntax on
-set background=dark
-colorscheme solarized
-se t_Co=256
+" config for simplenote
+source ~/.simplenoterc
 
-" Fixes signs for vim-gitgutter
-highlight clear SignColumn
+" Solarized color scheme
+syntax enable
+set background=dark
+set t_Co=16
+colorscheme solarized
 
 " http://stackoverflow.com/questions/901313
 set synmaxcol=120
@@ -192,13 +184,12 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " Add 1 space to comments
 let NERDSpaceDelims=1
 
-" grep and gsearch
-set grepprg=ag
-let g:grep_cmd_opts = '--line-numbers --noheading'
-
 " ruby conque runner
-let g:ruby_conque_rspec_runner='zeus rspec'
+let g:ruby_conque_rspec_runner='rspec'
 let g:ruby_conque_rspec_options=''
+
+set grepprg=git\ grep
+let g:grep_cmd_opts = '-n'
 
 " snipmate rebinding
 " let g:snips_trigger_key='<c-space>'
@@ -215,6 +206,10 @@ nmap <silent> <Leader>f :CtrlP<CR>
 nmap <silent> <Leader>n :cn<CR>
 nmap <silent> <Leader>N :cp<CR>
 
+" clipboard yank/paste
+vnoremap <Leader>y "+y
+vnoremap <Leader>p "+p
+
 " open file from same directory
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 
@@ -224,20 +219,5 @@ nnoremap <Leader>r "hyiw:%Subvert/<C-r>h//gc<left><left><left>
 
 vnoremap <C-g> "hy:Ggrep <C-r>h
 nnoremap <C-g> "hyiw:Ggrep <C-r>h
-
-" clipboard yank/paste
-vnoremap <Leader>y "+y
-vnoremap <Leader>p "+p
-
-" Qargs
-command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
-function! QuickfixFilenames()
-  " Building a hash ensures we get each buffer only once
-  let buffer_numbers = {}
-  for quickfix_item in getqflist()
-    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
-  endfor
-  return join(values(buffer_numbers))
-endfunction
 
 command! -nargs=0 -bar Tig execute '! tig %'
