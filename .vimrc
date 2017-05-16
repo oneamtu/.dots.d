@@ -191,6 +191,11 @@ let g:ruby_conque_rspec_options=''
 set grepprg=git\ grep
 let g:grep_cmd_opts = '-n'
 
+let g:rails_projections = {
+      \ "spec/features/*s_spec.rb": {
+      \ "command": "feature",
+      \ "affinity": "view"
+      \ } }
 " snipmate rebinding
 " let g:snips_trigger_key='<c-space>'
 
