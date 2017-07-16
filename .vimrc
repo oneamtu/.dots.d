@@ -108,6 +108,7 @@ fun! SetupVAM()
   VAMActivate scss-syntax
   VAMActivate vim-coffee-script
   VAMActivate github:freitass/todo.txt-vim
+  VAMActivate github:jceb/vim-orgmode
   VAMActivate github:blindFS/vim-taskwarrior
   VAMActivate sql_iabbr
   VAMActivate changesqlcase
@@ -226,3 +227,6 @@ vnoremap <C-g> "hy:Ggrep <C-r>h
 nnoremap <C-g> "hyiw:Ggrep <C-r>h
 
 command! -nargs=0 -bar Tig execute '! tig %'
+
+" Org-mode
+let g:org_agenda_files=['~/todo/work.org']

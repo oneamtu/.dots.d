@@ -7,7 +7,7 @@ COMPLETION_WAITING_DOTS="true"
 
 BUNDLED_COMMANDS=(rubocop)
 
-plugins=(jump cp gitfast git-extras web-search rbenv gem bundler capistrano zeus rand-quote nyan)
+plugins=(jump cp gitfast git-extras web-search rbenv gem bundler capistrano rand-quote nyan)
 
 autoload -U zmv
 
@@ -35,6 +35,7 @@ fpath=(/home/oneamtu/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/timetrap-1.8
 alias git-clean="git branch --merged master | grep -v '\* master' | xargs -n 1 git branch -d"
 
 alias todo="vim ~/todo.txt"
+alias org="vim ~/todo/work.org"
 alias wifi-rescan="sudo iwlist wlan0 scan"
 
 alias j="jump"
@@ -49,4 +50,4 @@ export PATH="/home/oneamtu/opt/node/bin:/home/oneamtu/opt/bin:$PATH"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-source .zshrc.private
+source ~/.dots.d/.zshrc.private
