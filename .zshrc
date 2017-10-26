@@ -35,7 +35,7 @@ fpath=(/home/oneamtu/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/timetrap-1.8
 alias git-clean="git branch --merged master | grep -v '\* master' | xargs -n 1 git branch -d"
 
 alias todo="vim ~/todo.txt"
-alias org="vim ~/todo/work.org"
+alias org="vim ~/org/work.org"
 alias wifi-rescan="sudo iwlist wlan0 scan"
 
 alias j="jump"
@@ -43,11 +43,14 @@ alias j="jump"
 export LOCAL_GEMS_DIR=~/
 export EDITOR=vim
 
-export TERM=xterm-16color
+# export TERM="xterm-16color"
 
-export PATH="/home/oneamtu/opt/node/bin:/home/oneamtu/opt/bin:$PATH"
+export PATH="/home/oneamtu/opt/bin:/home/oneamtu/opt/node/bin:/home/oneamtu/opt/bin:$PATH"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
 source ~/.dots.d/.zshrc.private
+
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash

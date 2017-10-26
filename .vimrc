@@ -1,5 +1,5 @@
 " leader
-let mapleader = ","
+let mapleader = " "
 
 set hidden
 set tabstop=2
@@ -80,6 +80,7 @@ fun! SetupVAM()
   call vam#ActivateAddons([], {'auto_install' : 1})
   " git
   VAMActivate fugitive
+  VAMActivate github:tpope/vim-rhubarb
   VAMActivate github:junkblocker/patchreview-vim
   VAMActivate github:codegram/vim-codereview
   " universal language file rules
@@ -109,31 +110,33 @@ fun! SetupVAM()
   VAMActivate vim-coffee-script
   VAMActivate github:freitass/todo.txt-vim
   VAMActivate github:jceb/vim-orgmode
-  VAMActivate github:blindFS/vim-taskwarrior
+  VAMActivate speeddating
+  " VAMActivate github:blindFS/vim-taskwarrior
   VAMActivate sql_iabbr
   VAMActivate changesqlcase
   VAMActivate github:tmux-plugins/vim-tmux
   VAMActivate github:honza/dockerfile.vim
   VAMActivate tpp
   VAMActivate github:pangloss/vim-javascript github:mxw/vim-jsx
-  VAMActivate github:mrtazz/simplenote.vim
+  " VAMActivate github:mrtazz/simplenote.vim
   " Ruby
   VAMActivate vim-ruby
-  VAMActivate Conque_Shell github:skwp/vim-ruby-conque
+  VAMActivate github:AndrewRadev/splitjoin.vim
+  " VAMActivate Conque_Shell github:skwp/vim-ruby-conque
   VAMActivate github:jgdavey/vim-blockle
   VAMActivate textobj-rubyblock
-  VAMActivate github:danchoi/ri.vim
+  " VAMActivate github:danchoi/ri.vim
   VAMActivate endwise
   VAMActivate rails
   VAMActivate github:KurtPreston/vim-autoformat-rails
   VAMActivate github:vim-scripts/matchit.zip
   VAMActivate github:ecomba/vim-ruby-refactoring
+  VAMActivate github:benmills/vimux
+  VAMActivate github:skalnik/vim-vroom
   " clojure & overtone
   VAMActivate github:guns/vim-clojure-static
   VAMActivate github:tpope/vim-fireplace
   VAMActivate github:tpope/vim-classpath
-
-
 
   " Old, activate w/ caution and as needed
   " 'snipmate',
@@ -155,7 +158,7 @@ endfun
 call SetupVAM()
 
 " config for simplenote
-source ~/.simplenoterc
+" source ~/.simplenoterc
 
 " Solarized color scheme
 syntax enable
@@ -185,9 +188,13 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " Add 1 space to comments
 let NERDSpaceDelims=1
 
-" ruby conque runner
-let g:ruby_conque_rspec_runner='rspec'
-let g:ruby_conque_rspec_options=''
+" vroom
+let g:vroom_use_vimux=1
+let g:vroom_use_zeus=1
+let g:vroom_clear_screen=0
+
+nmap <Leader>j :SplitjoinJoin<cr>
+nmap <Leader>s :SplitjoinSplit<cr>
 
 set grepprg=git\ grep
 let g:grep_cmd_opts = '-n'
@@ -197,13 +204,6 @@ let g:rails_projections = {
       \ "command": "feature",
       \ "affinity": "view"
       \ } }
-" snipmate rebinding
-" let g:snips_trigger_key='<c-space>'
-
-" Ruby conque shortcuts
-nmap <silent> <Leader>j :call RunRspecCurrentFileConque()<CR>
-nmap <silent> <Leader>l :call RunRspecCurrentLineConque()<CR>
-nmap <silent> ,<Leader>j :call RunLastConqueCommand()<CR>
 
 " CtrlP shortcut
 nmap <silent> <Leader>f :CtrlP<CR>
@@ -213,20 +213,24 @@ nmap <silent> <Leader>n :cn<CR>
 nmap <silent> <Leader>N :cp<CR>
 
 " clipboard yank/paste
-vnoremap <Leader>y "+y
-vnoremap <Leader>p "+p
+vnoremap <Leader>y :w !xsel -i -b <CR><CR>
+nnoremap <Leader>p :r !xsel -o -b <CR><CR>
 
 " open file from same directory
 nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 
 " replace visual selection
-vnoremap <Leader>r "hy:%Subvert/<C-r>h//gc<left><left><left>
-nnoremap <Leader>r "hyiw:%Subvert/<C-r>h//gc<left><left><left>
+vnoremap <Leader>s "hy:%Subvert/<C-r>h//gc<left><left><left>
+nnoremap <Leader>s "hyiw:%Subvert/<C-r>h//gc<left><left><left>
 
-vnoremap <C-g> "hy:Ggrep <C-r>h
-nnoremap <C-g> "hyiw:Ggrep <C-r>h
+vnoremap <Leader>g "hy:Ggrep <C-r>h
+nnoremap <Leader>g "hyiw:Ggrep <C-r>h
 
 command! -nargs=0 -bar Tig execute '! tig %'
 
+" Better command mode navigation
+cmap <C-j> <down>
+cmap <C-k> <up>
+
 " Org-mode
-let g:org_agenda_files=['~/todo/work.org']
+let g:org_agenda_files=['~/org/work.org']
