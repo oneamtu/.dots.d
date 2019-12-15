@@ -50,6 +50,10 @@ export PATH="/home/oneamtu/opt/bin:/home/oneamtu/opt/node/bin:/home/oneamtu/opt/
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
+alias wisecow='cowsay $(quote)'
+alias fix-wifi='sudo rm -f /etc/resolv.conf && sudo ln -sr /var/run/resolvconf/resolv.conf /etc/'
+alias journal='vi ~/ownCloud/todo/journal.org'
+
 source ~/.dots.d/.zshrc.private
 
 . $HOME/.asdf/asdf.sh

@@ -57,11 +57,6 @@ vnoremap > >gv
 " sudo save a file after editing it
 cmap w!! w !sudo tee % >/dev/null
 
-" Ctrl+C, Ctrl+V copy paste
-nmap <C-V> "+gP
-imap <C-V> <ESC><C-V>i
-vmap <C-C> "+y
-
 " VAM
 set nocompatible | filetype indent plugin on | syn on
 
@@ -105,12 +100,14 @@ fun! SetupVAM()
   VAMActivate camelcasemotion
   VAMActivate github:christoomey/vim-tmux-navigator
   VAMActivate ag
+  VAMActivate github:vim-scripts/ctags.vim
   " Other syntax
   VAMActivate scss-syntax
   VAMActivate vim-coffee-script
   VAMActivate github:freitass/todo.txt-vim
   VAMActivate github:jceb/vim-orgmode
   VAMActivate speeddating
+  VAMActivate github:elzr/vim-json
   " VAMActivate github:blindFS/vim-taskwarrior
   VAMActivate sql_iabbr
   VAMActivate changesqlcase
@@ -120,8 +117,10 @@ fun! SetupVAM()
   VAMActivate github:pangloss/vim-javascript github:mxw/vim-jsx
   " VAMActivate github:mrtazz/simplenote.vim
   " Ruby
-  VAMActivate vim-ruby
+  VAMActivate github:tpope/vim-bundler
+  VAMActivate github:vim-ruby/vim-ruby
   VAMActivate github:AndrewRadev/splitjoin.vim
+  VAMActivate github:lucapette/vim-ruby-doc
   " VAMActivate Conque_Shell github:skwp/vim-ruby-conque
   VAMActivate github:jgdavey/vim-blockle
   VAMActivate textobj-rubyblock
@@ -133,10 +132,14 @@ fun! SetupVAM()
   VAMActivate github:ecomba/vim-ruby-refactoring
   VAMActivate github:benmills/vimux
   VAMActivate github:skalnik/vim-vroom
+  " Crystal
+  VAMActivate github:rhysd/vim-crystal
   " clojure & overtone
   VAMActivate github:guns/vim-clojure-static
   VAMActivate github:tpope/vim-fireplace
   VAMActivate github:tpope/vim-classpath
+  " Elm
+  " VAMActivate github:w0rp/ale
 
   " Old, activate w/ caution and as needed
   " 'snipmate',
@@ -160,6 +163,8 @@ call SetupVAM()
 " config for simplenote
 " source ~/.simplenoterc
 
+let g:vim_json_syntax_conceal = 0
+
 " Solarized color scheme
 syntax enable
 set background=dark
@@ -176,6 +181,12 @@ map e <Plug>CamelCaseMotion_e
 sunmap w
 sunmap b
 sunmap e
+omap iw <Plug>CamelCaseMotion_iw
+xmap iw <Plug>CamelCaseMotion_iw
+omap ib <Plug>CamelCaseMotion_ib
+xmap ib <Plug>CamelCaseMotion_ib
+omap ie <Plug>CamelCaseMotion_ie
+xmap ie <Plug>CamelCaseMotion_ie
 
 " Note: Must allow nesting of autocmds to enable any customizations for quickfix
 " buffers.
@@ -205,6 +216,28 @@ let g:rails_projections = {
       \ "affinity": "view"
       \ } }
 
+let g:rails_gem_projections = {
+      \ "factory_girl_rails": {
+      \   "spec/factories/*.rb": {
+      \     "command": "factory",
+      \     "affinity": "model",
+      \     "alternate": "app/models/{}.rb",
+      \     "related": "db/schema.rb#{plural}",
+      \     "test": "spec/models/{}_spec.rb",
+      \     "template": "FactoryGirl.create(:{})"}}}
+
+" Rails spec factory navigation
+" autocmd User Rails Rnavcommand factory  spec/factories -suffix=.rb
+
+" ruby list newline expansion
+nnoremap <Leader>h $v%lohc<CR><CR><Up><C-r>"<Esc>:s/,/,\r/g<CR>:'[,']norm ==<CR>']'"
+
+" ctags Go To Definition shortcut
+nmap <silent> gd <C-]>
+
+"
+nmap <silent> <Leader>d obinding.pry<Esc>
+
 " CtrlP shortcut
 nmap <silent> <Leader>f :CtrlP<CR>
 
@@ -214,6 +247,7 @@ nmap <silent> <Leader>N :cp<CR>
 
 " clipboard yank/paste
 vnoremap <Leader>y :w !xsel -i -b <CR><CR>
+nnoremap <Leader>y "hyiw:silent !echo "<C-r>h" \| xsel -b <CR>:redraw!<CR>
 nnoremap <Leader>p :r !xsel -o -b <CR><CR>
 
 " open file from same directory
@@ -231,6 +265,12 @@ command! -nargs=0 -bar Tig execute '! tig %'
 " Better command mode navigation
 cmap <C-j> <down>
 cmap <C-k> <up>
+
+nnoremap <Leader>t :put =strftime('%Y-%m-%d')<CR>
+
+" C-s makes vim freeze.. TODO: debug that
+nnoremap <C-s> :w <CR>
+vnoremap <C-s> :w <CR>
 
 " Org-mode
 let g:org_agenda_files=['~/org/work.org']
