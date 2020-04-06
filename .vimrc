@@ -97,6 +97,7 @@ fun! SetupVAM()
   VAMActivate YankRing
   " Navigating
   VAMActivate ctrlp
+  VAMActivate github:sgur/ctrlp-extensions.vim
   VAMActivate camelcasemotion
   VAMActivate github:christoomey/vim-tmux-navigator
   VAMActivate ag
@@ -199,13 +200,19 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " Add 1 space to comments
 let NERDSpaceDelims=1
 
+" vimux
+function! VimuxSlime()
+  call VimuxSendText(@v)
+endfunction
+vmap <Leader>vs "vy :call VimuxSlime()<CR>
+
 " vroom
 let g:vroom_use_vimux=1
 let g:vroom_use_zeus=1
 let g:vroom_clear_screen=0
 
 nmap <Leader>j :SplitjoinJoin<cr>
-nmap <Leader>s :SplitjoinSplit<cr>
+nmap <Leader>k :SplitjoinSplit<cr>
 
 set grepprg=git\ grep
 let g:grep_cmd_opts = '-n'
@@ -238,8 +245,15 @@ nmap <silent> gd <C-]>
 "
 nmap <silent> <Leader>d obinding.pry<Esc>
 
-" CtrlP shortcut
-nmap <silent> <Leader>f :CtrlP<CR>
+" CtrlP config
+" CtrlPMixed has file, buffer and lru all in one
+nmap <silent> <Leader>f :CtrlPMixed<CR>
+" Useful for seeing project .config files; will need to ignore some hidden things manually
+let g:ctrlp_show_hidden = 1
+" Useful extensions
+let g:ctrlp_extensions = ['cmdline', 'yankring', 'menu']
+" Clear the cache on every command
+nnoremap <silent> <leader>T :ClearCtrlPCache<cr>\|:CtrlP<cr>
 
 " quickfix jump bindings
 nmap <silent> <Leader>n :cn<CR>
