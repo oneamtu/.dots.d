@@ -7,7 +7,7 @@ COMPLETION_WAITING_DOTS="true"
 
 BUNDLED_COMMANDS=(rubocop)
 
-plugins=(jump cp gitfast git-extras web-search rbenv gem bundler capistrano rand-quote nyan)
+plugins=(jump cp gitfast git-extras web-search rbenv gem bundler capistrano rand-quote nyan tig)
 
 autoload -U zmv
 
@@ -53,6 +53,8 @@ export PATH="/usr/local/heroku/bin:$PATH"
 alias wisecow='cowsay $(quote)'
 alias fix-wifi='sudo rm -f /etc/resolv.conf && sudo ln -sr /var/run/resolvconf/resolv.conf /etc/'
 alias journal='vi ~/ownCloud/todo/journal.org'
+alias bump-fms-config='bundle update --source fms_config && git ci -am "Bump fms_config."'
+alias reload-zshrc='source ~/.zshrc'
 
 source ~/.dots.d/.zshrc.private
 
