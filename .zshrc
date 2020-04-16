@@ -54,7 +54,9 @@ alias wisecow='cowsay $(quote)'
 alias fix-wifi='sudo rm -f /etc/resolv.conf && sudo ln -sr /var/run/resolvconf/resolv.conf /etc/'
 alias journal='vi ~/ownCloud/todo/journal.org'
 alias bump-fms-config='bundle update --source fms_config && git ci -am "Bump fms_config."'
-alias reload-zshrc='source ~/.zshrc'
+alias bump-ak-rails-safe-defaults='bundle update --source ak_rails_safe_defaults && git ci -am "Bump ak_rails_safe_defaults."'
+alias zshrc-reload='source ~/.zshrc'
+alias open='xdg-open &> /dev/null'
 
 source ~/.dots.d/.zshrc.private
 
