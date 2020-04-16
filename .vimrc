@@ -33,6 +33,19 @@ set noswapfile
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
+" https://github.com/neoclide/coc.nvim
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+" set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+" end neoclide
+
 " key maps
 imap jj <Esc>
 imap jk <Esc>
@@ -54,6 +67,7 @@ nnoremap g# g#z
 " keep selection after in/outdent
 vnoremap < <gv
 vnoremap > >gv
+
 " sudo save a file after editing it
 cmap w!! w !sudo tee % >/dev/null
 
@@ -84,23 +98,25 @@ fun! SetupVAM()
   VAMActivate github:airblade/vim-gitgutter
   VAMActivate github:Lokaltog/vim-powerline
   VAMActivate Syntastic
-  " Theme
-  VAMActivate github:altercation/vim-colors-solarized
   " Editing
   VAMActivate abolish
   VAMActivate github:ervandew/supertab
+  VAMActivate github:ycm-core/YouCompleteMe
   VAMActivate The_NERD_Commenter
-  VAMActivate github:skwp/greplace.vim
   VAMActivate delimitMate
   VAMActivate github:terryma/vim-multiple-cursors
   VAMActivate surround
   VAMActivate YankRing
+  " Snippets
+  VAMActivate github:SirVer/ultisnips
+  VAMActivate github:honza/vim-snippets
   " Navigating
   VAMActivate ctrlp
   VAMActivate github:sgur/ctrlp-extensions.vim
+  VAMActivate github:ivalkeen/vim-ctrlp-tjump
   VAMActivate camelcasemotion
   VAMActivate github:christoomey/vim-tmux-navigator
-  VAMActivate ag
+  VAMActivate github:yegappan/grep
   VAMActivate github:vim-scripts/ctags.vim
   " Other syntax
   VAMActivate scss-syntax
@@ -108,7 +124,6 @@ fun! SetupVAM()
   VAMActivate github:freitass/todo.txt-vim
   VAMActivate github:jceb/vim-orgmode
   VAMActivate speeddating
-  VAMActivate github:elzr/vim-json
   " VAMActivate github:blindFS/vim-taskwarrior
   VAMActivate sql_iabbr
   VAMActivate changesqlcase
@@ -116,7 +131,6 @@ fun! SetupVAM()
   VAMActivate github:honza/dockerfile.vim
   VAMActivate tpp
   VAMActivate github:pangloss/vim-javascript github:mxw/vim-jsx
-  " VAMActivate github:mrtazz/simplenote.vim
   " Ruby
   VAMActivate github:tpope/vim-bundler
   VAMActivate github:vim-ruby/vim-ruby
@@ -139,32 +153,45 @@ fun! SetupVAM()
   VAMActivate github:guns/vim-clojure-static
   VAMActivate github:tpope/vim-fireplace
   VAMActivate github:tpope/vim-classpath
+  " LaTeX
+  VAMActivate github:lervag/vimtex
   " Elm
   " VAMActivate github:w0rp/ale
 
-  " Old, activate w/ caution and as needed
-  " 'snipmate',
-  " 'repeat',
-  " 'rsi',
-  " 'taglist',
-  " 'bufkill',
-  " 'vim-seek',
-  " 'github:skammer/vim-css-color',
-  " 'github:greyblake/vim-preview',
-  " 'PA_ruby_ri',
   " 'dbext',
-  " 'vim-scala',
-  " 'Switch'
-  " 'textobj-user',
-  " 'vim-ruby',
-  " 'closetag',
 endfun
 call SetupVAM()
 
-" config for simplenote
-" source ~/.simplenoterc
+" auto set-up plug
+" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-let g:vim_json_syntax_conceal = 0
+" TODO: Try EasyMotion
+" TODO: Convert VAM plugins over to Plug
+
+" Plug plugins
+call plug#begin('~/.vim/bundle')
+
+"" Meta
+" Help for vim-plug
+Plug 'junegunn/vim-plug'
+
+" Theme
+Plug 'altercation/vim-colors-solarized'
+
+"" Syntax & Languages
+" Better syntax highlighting
+Plug 'elzr/vim-json'
+
+" Code Completion
+" TODO: come back to coc, might work better with nvim
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+call plug#end()
 
 " Solarized color scheme
 syntax enable
@@ -172,8 +199,22 @@ set background=dark
 set t_Co=16
 colorscheme solarized
 
+" Turn off weird quote hiding
+let g:vim_json_syntax_conceal = 0
+
+" Coc installed extensions
+" NOTE: There may be a way to get these installed on load
+"
+" :CocInstall coc-marketplace
+" :CocInstall coc-tag
+" :CocInstall coc-ruby
+" :CocInstall coc-snippets
+" :CocInstall coc-emoji
+
+" Fix syntax coloring issues for long lines
+" God help you if you have lines > 300
 " http://stackoverflow.com/questions/901313
-set synmaxcol=120
+set synmaxcol=300
 
 " Camel case motion ovrride default maps
 map w <Plug>CamelCaseMotion_w
@@ -214,8 +255,9 @@ let g:vroom_clear_screen=0
 nmap <Leader>j :SplitjoinJoin<cr>
 nmap <Leader>k :SplitjoinSplit<cr>
 
-set grepprg=git\ grep
-let g:grep_cmd_opts = '-n'
+" Use ag by default for grepping
+set grepprg='ag'
+let g:grep_cmd_opts = '--vimgrep'
 
 let g:rails_projections = {
       \ "spec/features/*s_spec.rb": {
@@ -239,9 +281,6 @@ let g:rails_gem_projections = {
 " ruby list newline expansion
 nnoremap <Leader>h $v%lohc<CR><CR><Up><C-r>"<Esc>:s/,/,\r/g<CR>:'[,']norm ==<CR>']'"
 
-" ctags Go To Definition shortcut
-nmap <silent> gd <C-]>
-
 "
 nmap <silent> <Leader>d obinding.pry<Esc>
 
@@ -252,8 +291,47 @@ nmap <silent> <Leader>f :CtrlPMixed<CR>
 let g:ctrlp_show_hidden = 1
 " Useful extensions
 let g:ctrlp_extensions = ['cmdline', 'yankring', 'menu']
+
+" https://thoughtbot.com/blog/faster-grepping-in-vim
+" Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+let g:ctrlp_user_command = 'ag %s --nocolor --nogroup --hidden -g ""'
+
+" ag is fast enough that CtrlP doesn't need to cache
+let g:ctrlp_use_caching = 0
 " Clear the cache on every command
-nnoremap <silent> <leader>T :ClearCtrlPCache<cr>\|:CtrlP<cr>
+" nnoremap <silent> <leader>T :ClearCtrlPCache<cr>\|:CtrlP<cr>
+
+nnoremap <c-]> :CtrlPtjump<cr>
+vnoremap <c-]> :CtrlPtjumpVisual<cr>
+
+" vim-ctrlp-tjump - CtrlP tags jump
+" If there is only one tag found, it is possible to open it without opening
+" CtrlP window:
+let g:ctrlp_tjump_only_silent = 1
+
+" ctags Go To Definition shortcut
+nmap <silent> gd <C-]>
+
+" ycm you complete me LSP server for ruby
+let g:ycm_language_server =
+  \ [
+  \   {
+  \     'name': 'ruby',
+  \     'cmdline': [ expand( '$HOME/.asdf/shims/solargraph' ), 'stdio' ],
+  \     'filetypes': [ 'ruby' ],
+  \   },
+  \ ]
+
+" make YCM compatible with UltiSnips (using supertab)
+" https://stackoverflow.com/questions/14896327/ultisnips-and-youcompleteme
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>""
 
 " quickfix jump bindings
 nmap <silent> <Leader>n :cn<CR>
@@ -271,8 +349,8 @@ nnoremap <Leader>e :e <C-R>=expand('%:p:h') . '/'<CR>
 vnoremap <Leader>s "hy:%Subvert/<C-r>h//gc<left><left><left>
 nnoremap <Leader>s "hyiw:%Subvert/<C-r>h//gc<left><left><left>
 
-vnoremap <Leader>g "hy:Ggrep <C-r>h
-nnoremap <Leader>g "hyiw:Ggrep <C-r>h
+vnoremap <Leader>g "hy:Ag <C-r>h
+nnoremap <Leader>g "hyiw:Ag <C-r>h
 
 command! -nargs=0 -bar Tig execute '! tig %'
 
