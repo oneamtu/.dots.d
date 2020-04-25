@@ -1,0 +1,10 @@
+bundler
+pry
+
+# Fast/accurate ctags
+# https://github.com/lzap/gem-ripper-tags
+# Alternative: gem-ctags
+ripper_tags
+
+# git helpers
+git-up
