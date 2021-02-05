@@ -3,8 +3,8 @@ pry
 
 # Fast/accurate ctags
 # https://github.com/lzap/gem-ripper-tags
-# Alternative: gem-ctags
-ripper_tags
+# Alternative:
+gem-ctags
 
 # git helpers
 git-up

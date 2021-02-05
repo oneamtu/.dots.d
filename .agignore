@@ -1,2 +1,5 @@
 # ag ignore tags
 tags
+tmp
+log
+.git

@@ -18,7 +18,7 @@ set ls=2 " Always show status line
 set wildmode=longest,list,full
 set wildmenu
 
-set history=1000         " remember more commands and search history
+set history=5000         " remember more commands and search history
 set undolevels=1000      " use many muchos levels of undo
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                " change the terminal's title
@@ -32,6 +32,7 @@ set noswapfile
 " highlight evil whitespaces
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
+autocmd FileType go setlocal nolist
 
 " https://github.com/neoclide/coc.nvim
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
@@ -55,6 +56,10 @@ imap kk <Esc>
 nnoremap ; :
 nnoremap j gj
 nnoremap k gk
+
+" make yank Y behave like C and D
+" help Y
+map Y y$
 
 " center search display
 nnoremap n nzz
@@ -118,6 +123,7 @@ fun! SetupVAM()
   VAMActivate github:christoomey/vim-tmux-navigator
   VAMActivate github:yegappan/grep
   VAMActivate github:vim-scripts/ctags.vim
+  VAMActivate github:benmills/vimux
   " Other syntax
   VAMActivate scss-syntax
   VAMActivate vim-coffee-script
@@ -134,19 +140,16 @@ fun! SetupVAM()
   " Ruby
   VAMActivate github:tpope/vim-bundler
   VAMActivate github:vim-ruby/vim-ruby
+  VAMActivate github:tpope/vim-rake
   VAMActivate github:AndrewRadev/splitjoin.vim
-  VAMActivate github:lucapette/vim-ruby-doc
-  " VAMActivate Conque_Shell github:skwp/vim-ruby-conque
   VAMActivate github:jgdavey/vim-blockle
   VAMActivate textobj-rubyblock
-  " VAMActivate github:danchoi/ri.vim
+  VAMActivate github:ecomba/vim-ruby-refactoring
   VAMActivate endwise
+  VAMActivate github:skalnik/vim-vroom
   VAMActivate rails
   VAMActivate github:KurtPreston/vim-autoformat-rails
   VAMActivate github:vim-scripts/matchit.zip
-  VAMActivate github:ecomba/vim-ruby-refactoring
-  VAMActivate github:benmills/vimux
-  VAMActivate github:skalnik/vim-vroom
   " Crystal
   VAMActivate github:rhysd/vim-crystal
   " clojure & overtone
@@ -184,8 +187,24 @@ Plug 'junegunn/vim-plug'
 Plug 'altercation/vim-colors-solarized'
 
 "" Syntax & Languages
-" Better syntax highlighting
+" Better json syntax highlighting
 Plug 'elzr/vim-json'
+" golang
+Plug 'fatih/vim-go'
+" rust
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
+
+let g:racer_experimental_completer = 1
+
+" Markdown
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+
+" Sensible tmux/zsh/vim titles
+Plug 'MikeDacre/tmux-zsh-vim-titles'
+" Make dispatched to other window
+Plug 'tpope/vim-dispatch'
 
 " Code Completion
 " TODO: come back to coc, might work better with nvim
@@ -246,6 +265,8 @@ function! VimuxSlime()
   call VimuxSendText(@v)
 endfunction
 vmap <Leader>vs "vy :call VimuxSlime()<CR>
+vmap <Leader>sms "vy :call VimuxSlime()<CR>
+nmap <Leader>sms "vy :call VimuxSlime()<CR>
 
 " vroom
 let g:vroom_use_vimux=1
@@ -286,7 +307,7 @@ nmap <silent> <Leader>d obinding.pry<Esc>
 
 " CtrlP config
 " CtrlPMixed has file, buffer and lru all in one
-nmap <silent> <Leader>f :CtrlPMixed<CR>
+nmap <silent> <Leader>f :CtrlP<CR>
 " Useful for seeing project .config files; will need to ignore some hidden things manually
 let g:ctrlp_show_hidden = 1
 " Useful extensions
@@ -309,9 +330,6 @@ vnoremap <c-]> :CtrlPtjumpVisual<cr>
 " CtrlP window:
 let g:ctrlp_tjump_only_silent = 1
 
-" ctags Go To Definition shortcut
-nmap <silent> gd <C-]>
-
 " ycm you complete me LSP server for ruby
 let g:ycm_language_server =
   \ [
@@ -327,6 +345,13 @@ let g:ycm_language_server =
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" Automatically close preview doc after insert
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+" Show hover
+nnoremap <Leader>gd :YcmCompleter GetDoc<CR>
+nmap <silent> gd :YcmCompleter GoToDefinition<CR>
 
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
