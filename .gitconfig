@@ -22,3 +22,7 @@
   autostash = true
 [stash]
   showPatch = true
+[receive]
+  fsckObjects = true
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/

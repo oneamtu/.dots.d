@@ -47,7 +47,7 @@ bindkey '^r' history-incremental-search-backward
 alias git-clean="git branch --merged master | grep -v '\* master' | xargs -n 1 git branch -d"
 
 alias todo="vim ~/todo.txt"
-alias org="vim ~/org/work.org"
+alias org="vim ~/work.org"
 alias wifi-rescan="sudo iwlist wlan0 scan"
 
 alias j="jump"
@@ -56,8 +56,6 @@ export LOCAL_GEMS_DIR=~/
 export EDITOR=vim
 
 # export TERM="xterm-16color"
-
-export PATH="/home/oneamtu/opt/bin:/home/oneamtu/opt/node/bin:/home/oneamtu/opt/bin:$PATH"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -82,6 +80,8 @@ source ~/.dots.d/.zshrc.private
 
 . $HOME/.asdf/asdf.sh
 . $HOME/.asdf/completions/asdf.bash
+
+export PATH="/home/oneamtu/opt/bin:$PATH"
 
 #direnv hook
 eval "$(direnv hook zsh)"

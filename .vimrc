@@ -113,7 +113,7 @@ fun! SetupVAM()
   VAMActivate surround
   VAMActivate YankRing
   " Snippets
-  VAMActivate github:SirVer/ultisnips
+  " VAMActivate github:SirVer/ultisnips
   VAMActivate github:honza/vim-snippets
   " Navigating
   VAMActivate ctrlp
@@ -194,6 +194,8 @@ Plug 'fatih/vim-go'
 " rust
 Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
+" AI code-completion
+Plug 'github/copilot.vim'
 
 let g:racer_experimental_completer = 1
 
@@ -388,6 +390,9 @@ nnoremap <Leader>t :put =strftime('%Y-%m-%d')<CR>
 " C-s makes vim freeze.. TODO: debug that
 nnoremap <C-s> :w <CR>
 vnoremap <C-s> :w <CR>
+
+" node global version support
+let $ASDF_NODEJS_VERSION = '18.1.0'
 
 " Org-mode
 let g:org_agenda_files=['~/org/work.org']
