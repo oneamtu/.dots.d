@@ -3,6 +3,8 @@
 # Find all files under the current directory.
 find . -type f -not -path "./setup" -not -path "./.git/*" | while read file; do
     # For each file that was found, create a symbolic link in the home directory.
-    # ln -s "$PWD/$file" "$HOME/$file"
     echo "ln -s \"$PWD/$file\" \"$HOME/$file\""
+    if ! ln -s "$PWD/$file" "$HOME/$file"; then
+        echo "Could not create \"$HOME/$file\" -- maybe it exists!"
+    fi
 done
