@@ -1,0 +1,112 @@
+{
+    "workbench.colorTheme": "Default Light+",
+    "tabnine.experimentalAutoImports": true,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true
+    },
+    "black-formatter.args": ["--line-length", "120"],
+    "remote.SSH.defaultExtensions": [
+        "gitpod.gitpod-remote-ssh"
+    ],
+    "remote.SSH.remotePlatform": {
+        "verymeta-deeplearning-jndblby7uuy.vss.gitpod.io": "linux",
+        "verymeta-deeplearning-caozm2r7jtl.vss.gitpod.io": "linux"
+    },
+    "dotfiles.repository": "oneamtu/.dots.d",
+    "dotfiles.targetPath": "~/.dots.d",
+    "git.confirmSync": false,
+    "git.enableSmartCommit": true,
+    // vim configs from this dude who copied them from the og site
+    // https://michaelychen.medium.com/my-experience-using-vim-keybindings-in-vscode-ea6d335aa155
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "j",
+                "j"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        }
+    ],
+    "vim.leader": "<space>",
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-p>": false
+    },
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ]
+        },
+        {
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ]
+        },
+        {
+            "before": [
+                "p"
+            ],
+            "after": [
+                "p",
+                "g",
+                "v",
+                "y"
+            ]
+        }
+    ],
+    "vim.statusBarColorControl": true,
+    "vim.statusBarColors.normal": [
+        "#8FBCBB",
+        "#000"
+    ],
+    "vim.statusBarColors.insert": [
+        "#BF616A",
+        "#000"
+    ],
+    "vim.statusBarColors.visual": [
+        "#B48EAD",
+        "#000"
+    ],
+    "vim.statusBarColors.visualline": [
+        "#B48EAD",
+        "#000"
+    ],
+    "vim.statusBarColors.visualblock": [
+        "#A3BE8C",
+        "#000"
+    ],
+    "vim.statusBarColors.replace": "#D08770",
+    "vim.statusBarColors.commandlineinprogress": "#007ACC",
+    "vim.statusBarColors.searchinprogressmode": "#007ACC",
+    "vim.statusBarColors.easymotionmode": "#007ACC",
+    "vim.statusBarColors.easymotioninputmode": "#007ACC",
+    "vim.statusBarColors.surroundi8FBCBBde": "#007ACC",
+    "workbench.colorCustomizations": {
+        "statusBar.background": "#8FBCBB",
+        "statusBar.noFolderBackground": "#8FBCBB",
+        "statusBar.debuggingBackground": "#8FBCBB",
+        "statusBar.foreground": "#000",
+        "statusBar.debuggingForeground": "#000"
+    },
+    "chatgpt.lang": "en",
+    "redhat.telemetry.enabled": false,
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "quarto.path": "/usr/local/bin/quarto",
+    "quarto.render.renderOnSave": true,
+    "workbench.activityBar.location": "hidden",
+    "window.zoomLevel": -1
+}
