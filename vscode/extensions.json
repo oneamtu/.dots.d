@@ -1,0 +1,116 @@
+{
+  "vscode.configuration-editing": {
+    "version": "1.0.0"
+  },
+  "vscode.css-language-features": {
+    "version": "1.0.0"
+  },
+  "vscode.debug-auto-launch": {
+    "version": "1.0.0"
+  },
+  "vscode.debug-server-ready": {
+    "version": "1.0.0"
+  },
+  "vscode.emmet": {
+    "version": "1.0.0"
+  },
+  "vscode.extension-editing": {
+    "version": "1.0.0"
+  },
+  "vscode.git": {
+    "version": "1.0.0"
+  },
+  "vscode.git-base": {
+    "version": "1.0.0"
+  },
+  "vscode.github": {
+    "version": "0.0.1"
+  },
+  "vscode.grunt": {
+    "version": "1.0.0"
+  },
+  "vscode.gulp": {
+    "version": "1.0.0"
+  },
+  "vscode.html-language-features": {
+    "version": "1.0.0"
+  },
+  "vscode.ipynb": {
+    "version": "1.0.0"
+  },
+  "vscode.jake": {
+    "version": "1.0.0"
+  },
+  "vscode.json-language-features": {
+    "version": "1.0.0"
+  },
+  "vscode.markdown-language-features": {
+    "version": "1.0.0"
+  },
+  "vscode.markdown-math": {
+    "version": "1.0.0"
+  },
+  "vscode.merge-conflict": {
+    "version": "1.0.0"
+  },
+  "ms-vscode.js-debug": {
+    "version": "1.84.0"
+  },
+  "ms-vscode.vscode-js-profile-table": {
+    "version": "1.0.3"
+  },
+  "vscode.npm": {
+    "version": "1.0.1"
+  },
+  "vscode.php-language-features": {
+    "version": "1.0.0"
+  },
+  "vscode.references-view": {
+    "version": "1.0.0"
+  },
+  "vscode.search-result": {
+    "version": "1.0.0"
+  },
+  "vscode.tunnel-forwarding": {
+    "version": "1.0.0"
+  },
+  "vscode.typescript-language-features": {
+    "version": "1.0.0"
+  },
+  "hoddy3190.sync-extensions": {
+    "version": "1.0.0"
+  },
+  "ms-azuretools.vscode-docker": {
+    "version": "1.28.0"
+  },
+  "ms-python.black-formatter": {
+    "version": "2023.6.0"
+  },
+  "ms-python.isort": {
+    "version": "2023.10.1"
+  },
+  "ms-python.python": {
+    "version": "2023.21.13351006"
+  },
+  "ms-python.vscode-pylance": {
+    "version": "2023.11.102"
+  },
+  "ms-toolsai.jupyter": {
+    "version": "2023.10.1100000000"
+  },
+  "ms-toolsai.jupyter-renderers": {
+    "version": "1.0.17"
+  },
+  "ms-toolsai.vscode-jupyter-cell-tags": {
+    "version": "0.1.8"
+  },
+  "ms-toolsai.vscode-jupyter-slideshow": {
+    "version": "0.1.5"
+  },
+  "phind.phind": {
+    "version": "0.16.6"
+  },
+  "TabNine.tabnine-vscode": {
+    "version": "3.45.0"
+  }
+}
