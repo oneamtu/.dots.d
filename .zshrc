@@ -60,11 +60,6 @@ bindkey '^h' undefined-key
 
 bindkey '^r' history-incremental-search-backward
 
-# timetrap completions
-# autoload -U compinit
-# compinit
-# fpath=($HOME/.rbenv/versions/2.1.6/lib/ruby/gems/2.1.0/gems/timetrap-1.8.14/completions/zsh $fpath)
-
 alias git-clean="git branch --merged master | grep -v '\* master' | xargs -n 1 git branch -d"
 
 alias todo="vim ~/todo.txt"
