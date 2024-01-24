@@ -73,6 +73,10 @@ nnoremap g# g#z
 vnoremap < <gv
 vnoremap > >gv
 
+" Better command mode navigation
+cmap <C-j> <down>
+cmap <C-k> <up>
+
 " sudo save a file after editing it
 cmap w!! w !sudo tee % >/dev/null
 
@@ -163,7 +167,7 @@ fun! SetupVAM()
 
   " 'dbext',
 endfun
-call SetupVAM()
+" call SetupVAM()
 
 " auto set-up plug
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
@@ -185,6 +189,17 @@ Plug 'junegunn/vim-plug'
 
 " Theme
 Plug 'altercation/vim-colors-solarized'
+
+" Navigating
+" VAMActivate ctrlp
+" VAMActivate github:sgur/ctrlp-extensions.vim
+" VAMActivate github:ivalkeen/vim-ctrlp-tjump
+Plug 'chaoren/vim-wordmotion'
+Plug 'easymotion/vim-easymotion'
+" VAMActivate github:christoomey/vim-tmux-navigator
+" VAMActivate github:yegappan/grep
+" VAMActivate github:vim-scripts/ctags.vim
+" VAMActivate github:benmills/vimux
 
 "" Syntax & Languages
 " Better json syntax highlighting
@@ -220,6 +235,7 @@ set background=dark
 set t_Co=16
 colorscheme solarized
 
+
 " Turn off weird quote hiding
 let g:vim_json_syntax_conceal = 0
 
@@ -236,20 +252,6 @@ let g:vim_json_syntax_conceal = 0
 " God help you if you have lines > 300
 " http://stackoverflow.com/questions/901313
 set synmaxcol=300
-
-" Camel case motion ovrride default maps
-map w <Plug>CamelCaseMotion_w
-map b <Plug>CamelCaseMotion_b
-map e <Plug>CamelCaseMotion_e
-sunmap w
-sunmap b
-sunmap e
-omap iw <Plug>CamelCaseMotion_iw
-xmap iw <Plug>CamelCaseMotion_iw
-omap ib <Plug>CamelCaseMotion_ib
-xmap ib <Plug>CamelCaseMotion_ib
-omap ie <Plug>CamelCaseMotion_ie
-xmap ie <Plug>CamelCaseMotion_ie
 
 " Note: Must allow nesting of autocmds to enable any customizations for quickfix
 " buffers.
@@ -380,10 +382,6 @@ vnoremap <Leader>g "hy:Ag <C-r>h
 nnoremap <Leader>g "hyiw:Ag <C-r>h
 
 command! -nargs=0 -bar Tig execute '! tig %'
-
-" Better command mode navigation
-cmap <C-j> <down>
-cmap <C-k> <up>
 
 nnoremap <Leader>t :put =strftime('%Y-%m-%d')<CR>
 
