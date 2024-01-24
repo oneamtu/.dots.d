@@ -1,6 +1,10 @@
 #!/bin/bash
 
-sudo apt install -y zsh tmux fzf ripgrep vim curl
+if [ ! -f "$HOME/.ssh/id_rsa" ]; then
+    ssh-keygen -t rsa -b 4096 -f $HOME/.ssh/id_rsa -N ""
+fi
+
+sudo apt update && install -y zsh tmux fzf ripgrep vim curl
 
 mkdir -p $HOME/.antigen/
 curl -L git.io/antigen > $HOME/.antigen/antigen.zsh
