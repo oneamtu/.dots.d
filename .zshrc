@@ -108,3 +108,5 @@ if [ -f '$HOME/opt/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/opt/goo
 alias gcp_internal='gcloud container clusters get-credentials internal-cluster --project=internal-234516 --zone=us-east4-a'
 alias gcp_prod='gcloud container clusters get-credentials production --project=production-284017 --zone=us-central1-c'
 alias gcp_qc='gcloud container clusters get-credentials qa --project=quality-control-277920 --zone=us-central1-c'
+
+. "$HOME/.asdf/asdf.sh"

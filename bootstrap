@@ -4,7 +4,7 @@ if [ ! -f "$HOME/.ssh/id_rsa" ]; then
     ssh-keygen -t rsa -b 4096 -f $HOME/.ssh/id_rsa -N ""
 fi
 
-sudo apt update && install -y zsh tmux fzf ripgrep vim curl
+sudo apt update && sudo apt install -y zsh tmux fzf ripgrep vim curl zip unzip build-essential
 
 mkdir -p $HOME/.antigen/
 curl -L git.io/antigen > $HOME/.antigen/antigen.zsh
