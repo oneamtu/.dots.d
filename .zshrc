@@ -72,7 +72,7 @@ export LOCAL_GEMS_DIR=~/
 export EDITOR=vim
 
 # better titles
-source $HOME/.tmux/plugins/tmux-zsh-vim-titles/unified-titles.plugin.zsh 
+if [ -f '$HOME/opt/google-cloud-sdk/path.zsh.inc' ]; then source '$HOME/.tmux/plugins/tmux-zsh-vim-titles/unified-titles.plugin.zsh'; fi 
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -109,4 +109,4 @@ alias gcp_internal='gcloud container clusters get-credentials internal-cluster -
 alias gcp_prod='gcloud container clusters get-credentials production --project=production-284017 --zone=us-central1-c'
 alias gcp_qc='gcloud container clusters get-credentials qa --project=quality-control-277920 --zone=us-central1-c'
 
-. "$HOME/.asdf/asdf.sh"
+if [ -f '$HOME/.asdf/asdf.sh' ]; then . '$HOME/.asdf/asdf.sh'; fi
