@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "$PWD" = "$HOME" ]; then
+  echo "You're doing it wrong silly."
+  exit 1
+fi
+
 # Find all files under the current directory.
 find . -type f -name ".*" -not -path "./setup" -not -path "./.git/*" | while read file; do
     # For each file that was found, create a symbolic link in the home directory.
