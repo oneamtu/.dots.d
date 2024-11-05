@@ -1,8 +1,8 @@
-if [ -f '$HOME/.profile' ]; then source $HOME/.profile; fi
-
 # antigen
 source $HOME/.antigen/antigen.zsh
 antigen init $HOME/.antigenrc
+
+if [ -f '$HOME/.profile' ]; then source $HOME/.profile; fi
 
 COMPLETION_WAITING_DOTS="true"
 BUNDLED_COMMANDS=(rubocop)
@@ -54,8 +54,6 @@ export PATH="/usr/local/heroku/bin:$PATH"
 alias wisecow='cowsay $(quote)'
 alias fix-wifi='sudo rm -f /etc/resolv.conf && sudo ln -sr /var/run/resolvconf/resolv.conf /etc/'
 alias journal='vi ~/ownCloud/todo/journal.org'
-alias bump-fms-config='bundle update --source fms_config && git ci -am "Bump fms_config."'
-alias bump-ak-rails-safe-defaults='bundle update --source ak_rails_safe_defaults && git ci -am "Bump ak_rails_safe_defaults."'
 alias zshrc-reload='source ~/.zshrc'
 alias open='xdg-open &> /dev/null'
 
@@ -79,8 +77,5 @@ if [ -f '$HOME/opt/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/opt/google-cl
 # The next line enables shell command completion for gcloud.
 if [ -f '$HOME/opt/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/opt/google-cloud-sdk/completion.zsh.inc'; fi
 
-alias gcp_internal='gcloud container clusters get-credentials internal-cluster --project=internal-234516 --zone=us-east4-a'
-alias gcp_prod='gcloud container clusters get-credentials production --project=production-284017 --zone=us-central1-c'
-alias gcp_qc='gcloud container clusters get-credentials qa --project=quality-control-277920 --zone=us-central1-c'
 
 if [ -f '$HOME/.asdf/asdf.sh' ]; then . '$HOME/.asdf/asdf.sh'; fi
