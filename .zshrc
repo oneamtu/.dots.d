@@ -1,4 +1,4 @@
-if [ -f '$HOME/.profile' ]; then source $HOME/.profile; fi 
+if [ -f '$HOME/.profile' ]; then source $HOME/.profile; fi
 
 # antigen
 source $HOME/.antigen/antigen.zsh
@@ -44,10 +44,9 @@ alias wifi-rescan="sudo iwlist wlan0 scan"
 alias j="jump"
 
 export LOCAL_GEMS_DIR=~/
-export EDITOR=vim
 
 # better titles
-if [ -f '$HOME/opt/google-cloud-sdk/path.zsh.inc' ]; then source '$HOME/.tmux/plugins/tmux-zsh-vim-titles/unified-titles.plugin.zsh'; fi 
+if [ -f '$HOME/opt/google-cloud-sdk/path.zsh.inc' ]; then source '$HOME/.tmux/plugins/tmux-zsh-vim-titles/unified-titles.plugin.zsh'; fi
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
