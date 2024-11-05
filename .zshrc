@@ -1,33 +1,8 @@
+if [ -f '$HOME/.profile' ]; then source $HOME/.profile; fi 
+
+# antigen
 source $HOME/.antigen/antigen.zsh
-# Path to your oh-my-zsh configuration.
-antigen use oh-my-zsh
-
-antigen bundle <<EOBUNDLES
-  # Bundles from the default repo (robbyrussell's oh-my-zsh)
-  asdf
-  bundler
-  direnv
-  fzf
-  gitfast
-  ripgrep
-  tmux
-  vi-mode
-
-  # Syntax highlighting bundle.
-  zsh-users/zsh-syntax-highlighting
-
-  # Fish-like auto suggestions
-  zsh-users/zsh-autosuggestions
-
-  # Extra zsh completions
-  zsh-users/zsh-completions
-EOBUNDLES
-
-# Load the theme
-antigen theme robbyrussell
-
-# Tell antigen that you're done
-antigen apply
+antigen init $HOME/.antigenrc
 
 COMPLETION_WAITING_DOTS="true"
 BUNDLED_COMMANDS=(rubocop)
