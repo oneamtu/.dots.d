@@ -26,3 +26,11 @@ antigen theme robbyrussell
 
 # Tell antigen that you're done
 antigen apply
+
+# Ctrl+space to autosuggest accept
+bindkey '^ ' autosuggest-accept
+
+# disable underline highlights
+(( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[path]=none
+ZSH_HIGHLIGHT_STYLES[path_prefix]=none

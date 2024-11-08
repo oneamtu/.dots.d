@@ -2,7 +2,7 @@
 source $HOME/.antigen/antigen.zsh
 antigen init $HOME/.antigenrc
 
-if [ -f '$HOME/.profile' ]; then source $HOME/.profile; fi
+if [ -f $HOME/.profile ]; then source $HOME/.profile; fi
 
 COMPLETION_WAITING_DOTS="true"
 BUNDLED_COMMANDS=(rubocop)
@@ -68,8 +68,6 @@ function kubessh() {
 if [ -f "~/.dots.d/.zshrc.private" ]; then
   source ~/.dots.d/.zshrc.private
 fi
-
-export PATH="$HOME/opt/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '$HOME/opt/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/opt/google-cloud-sdk/path.zsh.inc'; fi
