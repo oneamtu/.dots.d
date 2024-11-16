@@ -21,6 +21,7 @@ autoload -U zmv
 # stop it from annoying autocorrects
 unsetopt correct_all
 
+bindkey 'ww' vi-cmd-mode
 bindkey 'jj' vi-cmd-mode
 bindkey 'jk' vi-cmd-mode
 bindkey 'kk' vi-cmd-mode

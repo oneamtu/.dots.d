@@ -30,7 +30,9 @@ antigen apply
 # Ctrl+space to autosuggest accept
 bindkey '^ ' autosuggest-accept
 
+ZSH_HIGHLIGHT_HIGHLIGHTERS+=(brackets pattern cursor regexp)
+
 # disable underline highlights
 (( ${+ZSH_HIGHLIGHT_STYLES} )) || typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[path]=none
-ZSH_HIGHLIGHT_STYLES[path_prefix]=none
+ZSH_HIGHLIGHT_STYLES[path]=fg-gray
+ZSH_HIGHLIGHT_STYLES[path_prefix]=fg-gray
