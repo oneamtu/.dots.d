@@ -16,16 +16,15 @@ if command -v pandoc >/dev/null 2>&1 ; then
   eval "$(pandoc --bash-completion)"
 fi
 
-# plugins=(jump cp gitfast git-extras web-search rbenv gem bundler capistrano rand-quote nyan tig asdf)
-# plugins=(bundler asdf)
-
 autoload -U zmv
 
 # stop it from annoying autocorrects
 unsetopt correct_all
 
 bindkey 'jj' vi-cmd-mode
+bindkey 'jk' vi-cmd-mode
 bindkey 'kk' vi-cmd-mode
+bindkey 'kj' vi-cmd-mode
 
 # navigation shortcuts
 bindkey '^j' undefined-key
@@ -57,14 +56,6 @@ alias journal='vi ~/ownCloud/todo/journal.org'
 alias zshrc-reload='source ~/.zshrc'
 alias open='xdg-open &> /dev/null'
 
-# alias pass-copy-gcp="passbolt get $(passbolt find | awk '/GCP/ { print $NF }')  | gpg -q --no-tty | xsel -b -i"
-
-function kubessh() {
-  kube=$(kubectl get pods --namespace=$1 | ruby -ne "puts $& if /$2[\w-]+app-deployment[\w-]+/")
-  print "Connecting to $kube"
-  kubectl exec -it $kube --namespace=$1 -- /bin/bash
-}
-
 if [ -f "~/.dots.d/.zshrc.private" ]; then
   source ~/.dots.d/.zshrc.private
 fi
@@ -74,6 +65,3 @@ if [ -f '$HOME/opt/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/opt/google-cl
 
 # The next line enables shell command completion for gcloud.
 if [ -f '$HOME/opt/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/opt/google-cloud-sdk/completion.zsh.inc'; fi
-
-
-if [ -f '$HOME/.asdf/asdf.sh' ]; then . '$HOME/.asdf/asdf.sh'; fi
