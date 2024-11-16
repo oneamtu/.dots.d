@@ -4,7 +4,16 @@ if [ ! -f "$HOME/.ssh/id_rsa" ]; then
     ssh-keygen -t rsa -b 4096 -f $HOME/.ssh/id_rsa -N ""
 fi
 
-sudo apt update && sudo apt install -y zsh tmux fzf ripgrep fd-find vim curl zip unzip build-essential
+sudo apt update
+
+# basic devtools
+sudo apt install -y zsh tmux fzf ripgrep fd-find vim curl zip unzip build-essential
+
+# xmodmap to bind caps to control
+sudo apt install -y x11-xserver-utils
+
+# python base - consider nix or asdf too I guess
+sudo apt install -y python3 python-is-python3 python3-pip python3-venv
 
 mkdir -p $HOME/.antigen/
 curl -L git.io/antigen > $HOME/.antigen/antigen.zsh
