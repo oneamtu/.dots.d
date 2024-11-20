@@ -7,7 +7,7 @@ fi
 sudo apt update
 
 # basic devtools
-sudo apt install -y zsh tmux fzf ripgrep fd-find vim curl zip unzip build-essential
+sudo apt install -y zsh tmux fzf ripgrep fd-find vim curl zip unzip build-essential direnv
 
 # xmodmap to bind caps to control
 sudo apt install -y x11-xserver-utils

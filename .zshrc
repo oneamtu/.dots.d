@@ -66,3 +66,13 @@ if [ -f '$HOME/opt/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/opt/google-cl
 
 # The next line enables shell command completion for gcloud.
 if [ -f '$HOME/opt/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/opt/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Make venv prompt work w/ direnv
+setopt PROMPT_SUBST
+
+show_virtual_env() {
+  if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
+    echo "($(basename $VIRTUAL_ENV))"
+  fi
+}
+PS1='$(show_virtual_env)'$PS1
