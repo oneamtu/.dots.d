@@ -93,11 +93,12 @@ function kubessh() {
   kubectl exec -it $kube --namespace=$1 -- /bin/bash
 }
 
-if [ -f "~/.dots.d/.zshrc.private" ]; then
-  source ~/.dots.d/.zshrc.private
+# TODO: .env?
+if [ -f "~/.zshrc.private" ]; then
+  source ~/.zshrc.private
 fi
 
-export PATH="$HOME/opt/bin:$PATH"
+export PATH="$HOME/opt/bin:$HOME/.local/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '$HOME/opt/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/opt/google-cloud-sdk/path.zsh.inc'; fi
