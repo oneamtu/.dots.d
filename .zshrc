@@ -1,127 +1,122 @@
+# Antigen plugin manager
 source $HOME/.antigen/antigen.zsh
-# Path to your oh-my-zsh configuration.
 antigen use oh-my-zsh
 
 antigen bundles <<EOBUNDLES
-  # Bundles from the default repo (robbyrussell's oh-my-zsh)
   asdf
-  bundler
   direnv
   fzf
   gitfast
   ripgrep
   tmux
   vi-mode
-  nvm
 
-  # Syntax highlighting bundle.
   zsh-users/zsh-syntax-highlighting
-
-  # Fish-like auto suggestions
   zsh-users/zsh-autosuggestions
-
-  # Extra zsh completions
   zsh-users/zsh-completions
 EOBUNDLES
 
-# Load the theme
 antigen theme robbyrussell
-
-# Tell antigen that you're done
 antigen apply
 
+# Shell options
 COMPLETION_WAITING_DOTS="true"
-BUNDLED_COMMANDS=(rubocop)
+HIST_STAMPS="yyyy-mm-dd"
+REPORTTIME=3
+unsetopt correct_all
 
-# bash completions compatibility
-autoload bashcompinit
-bashcompinit
+# History settings
+HISTSIZE=50000
+SAVEHIST=50000
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_VERIFY
+setopt SHARE_HISTORY
 
-# pandoc completions
-if command -v pandoc >/dev/null 2>&1 ; then
+# Prompt customization
+setopt PROMPT_SUBST
+
+preexec() {
+  __CMD_START_TIME=$SECONDS
+}
+
+precmd() {
+  if [[ -n $__CMD_START_TIME ]]; then
+    local elapsed=$(($SECONDS - $__CMD_START_TIME))
+    if (( elapsed > 0 )); then
+      print -P "%F{yellow}⏱  ${elapsed}s%f"
+    fi
+    unset __CMD_START_TIME
+  fi
+  RPS1="%F{242}[%D{%Y-%m-%d %H:%M:%S}]%f"
+}
+
+# Completions
+autoload -U compinit && compinit
+autoload -U bashcompinit && bashcompinit
+autoload -U zmv
+
+if command -v pandoc >/dev/null 2>&1; then
   eval "$(pandoc --bash-completion)"
 fi
 
-# plugins=(jump cp gitfast git-extras web-search rbenv gem bundler capistrano rand-quote nyan tig asdf)
-# plugins=(bundler asdf)
-
-autoload -U zmv
-
-# stop it from annoying autocorrects
-unsetopt correct_all
-
+# Key bindings
 bindkey 'jj' vi-cmd-mode
 bindkey 'kk' vi-cmd-mode
-
-# navigation shortcuts
-bindkey '^j' undefined-key
-bindkey '^k' undefined-key
-bindkey '^l' undefined-key
-bindkey '^h' undefined-key
-
 bindkey '^r' history-incremental-search-backward
 
-alias git-clean="git branch --merged master | grep -v '\* master' | xargs -n 1 git branch -d"
-
-alias todo="vim ~/todo.txt"
-alias org="vim ~/work.org"
-alias wifi-rescan="sudo iwlist wlan0 scan"
-
-alias j="jump"
-
-export LOCAL_GEMS_DIR=~/
+# Environment
 export EDITOR=vim
-
-# better titles
-if [ -f '$HOME/opt/google-cloud-sdk/path.zsh.inc' ]; then source '$HOME/.tmux/plugins/tmux-zsh-vim-titles/unified-titles.plugin.zsh'; fi 
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-alias wisecow='cowsay $(quote)'
-alias fix-wifi='sudo rm -f /etc/resolv.conf && sudo ln -sr /var/run/resolvconf/resolv.conf /etc/'
-alias journal='vi ~/ownCloud/todo/journal.org'
-alias bump-fms-config='bundle update --source fms_config && git ci -am "Bump fms_config."'
-alias bump-ak-rails-safe-defaults='bundle update --source ak_rails_safe_defaults && git ci -am "Bump ak_rails_safe_defaults."'
-alias zshrc-reload='source ~/.zshrc'
-alias open='xdg-open &> /dev/null'
-
-# alias pass-copy-gcp="passbolt get $(passbolt find | awk '/GCP/ { print $NF }')  | gpg -q --no-tty | xsel -b -i"
-
-function kubessh() {
-  kube=$(kubectl get pods --namespace=$1 | ruby -ne "puts $& if /$2[\w-]+app-deployment[\w-]+/")
-  print "Connecting to $kube"
-  kubectl exec -it $kube --namespace=$1 -- /bin/bash
-}
-
-# TODO: .env?
-if [ -f "~/.zshrc.private" ]; then
-  source ~/.zshrc.private
-fi
-
 export PATH="$HOME/opt/bin:$HOME/.local/bin:$PATH"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '$HOME/opt/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/opt/google-cloud-sdk/path.zsh.inc'; fi
+# Aliases
+alias git-clean="git branch --merged master | grep -v '\* master' | xargs -n 1 git branch -d"
+alias zshrc-reload='source ~/.zshrc'
+alias open='xdg-open &>/dev/null'
+alias todo='vim ~/todo.txt'
+alias org='vim ~/work.org'
+alias journal='vi ~/ownCloud/todo/journal.org'
 
-# The next line enables shell command completion for gcloud.
-if [ -f '$HOME/opt/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/opt/google-cloud-sdk/completion.zsh.inc'; fi
+# Functions
+kubessh() {
+  local kube=$(kubectl get pods --namespace="$1" | ruby -ne "puts \$& if /$2[\w-]+app-deployment[\w-]+/")
+  echo "Connecting to $kube"
+  kubectl exec -it "$kube" --namespace="$1" -- /bin/bash
+}
+
+# Google Cloud SDK
+if [[ -f "$HOME/opt/google-cloud-sdk/path.zsh.inc" ]]; then
+  source "$HOME/opt/google-cloud-sdk/path.zsh.inc"
+fi
+if [[ -f "$HOME/opt/google-cloud-sdk/completion.zsh.inc" ]]; then
+  source "$HOME/opt/google-cloud-sdk/completion.zsh.inc"
+fi
 
 alias gcp_internal='gcloud container clusters get-credentials internal-cluster --project=internal-234516 --zone=us-east4-a'
 alias gcp_prod='gcloud container clusters get-credentials production --project=production-284017 --zone=us-central1-c'
 alias gcp_qc='gcloud container clusters get-credentials qa --project=quality-control-277920 --zone=us-central1-c'
 
-if [ -f '$HOME/.asdf/asdf.sh' ]; then . '$HOME/.asdf/asdf.sh'; fi
+# asdf version manager (handled by antigen plugin)
+if [[ -f "$HOME/.asdf/asdf.sh" ]]; then
+  source "$HOME/.asdf/asdf.sh"
+fi
 
+# NVM (Node Version Manager)
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+[[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
 
-# opam configuration
-[[ ! -r /home/oneamtu/.opam/opam-init/init.zsh ]] || source /home/oneamtu/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+# OCaml/opam
+[[ -r "$HOME/.opam/opam-init/init.zsh" ]] && source "$HOME/.opam/opam-init/init.zsh" >/dev/null 2>&1
 
-# pyenv initialization
+# pyenv
 export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh)"
-export PATH="/home/oneamtu/.local/bin:$PATH"
+[[ -d "$PYENV_ROOT/bin" ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv >/dev/null 2>&1; then
+  eval "$(pyenv init - zsh)"
+fi
+
+# Private configurations
+[[ -f "$HOME/.zshrc.private" ]] && source "$HOME/.zshrc.private"

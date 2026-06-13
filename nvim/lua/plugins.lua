@@ -3,16 +3,19 @@ return {
   -- Meta
   { "folke/lazy.nvim" },
 
-  -- Theme: solarized8 (truecolor, treesitter & LSP-aware)
+  -- Theme: onedark (Atom's colorful dark theme with blues and grays)
   {
-    "lifepillar/vim-solarized8",
+    "navarasu/onedark.nvim",
     lazy = false,
     priority = 1000,
     config = function()
+      require('onedark').setup({
+        style = 'dark',  -- darker variant
+      })
+      require('onedark').load()
       vim.cmd("syntax enable")
-      vim.opt.termguicolors = true   -- 24-bit color so treesitter highlighting pays off
+      vim.opt.termguicolors = true
       vim.opt.background = "dark"
-      pcall(vim.cmd, "colorscheme solarized8")
     end,
   },
 
@@ -34,7 +37,14 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require("lualine").setup({ options = { theme = "solarized_dark" } })
+      require("lualine").setup({
+        options = {
+          theme = "onedark",
+          icons_enabled = false,
+          component_separators = { left = '|', right = '|'},
+          section_separators = { left = '', right = ''},
+        }
+      })
     end,
   },
 
