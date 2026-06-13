@@ -1,1 +1,4 @@
 **/tags
+nvim/lazy-lock.json
+
+**/.claude/settings.local.json

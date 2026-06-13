@@ -1,6 +1,6 @@
 [user]
   name = Octavian Neamțu
-  email = oneamtu89@gmail.com
+  email = octavian.neamtu@generac.com
 [color]
   ui = true
 [alias]
@@ -10,7 +10,7 @@
   co = checkout
   p = push -u
 [core]
-  editor = vim -f
+	editor = nvim
   excludesfile = ~/.gitignore
 [pull]
   rebase = true
@@ -24,7 +24,18 @@
   showPatch = true
 [receive]
   fsckObjects = true
-[url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
+[url "https://github.com/"]
+	insteadOf = ssh://git@github.com/
 [init]
 	defaultBranch = main
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[url "https://"]
+	insteadOf = git://
+[diff]
+	tool = nvimdiff
+[merge]
+	tool = nvimdiff
+[difftool]
+	prompt = false

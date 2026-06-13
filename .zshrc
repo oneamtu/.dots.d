@@ -2,7 +2,7 @@ source $HOME/.antigen/antigen.zsh
 # Path to your oh-my-zsh configuration.
 antigen use oh-my-zsh
 
-antigen bundle <<EOBUNDLES
+antigen bundles <<EOBUNDLES
   # Bundles from the default repo (robbyrussell's oh-my-zsh)
   asdf
   bundler
@@ -12,6 +12,7 @@ antigen bundle <<EOBUNDLES
   ripgrep
   tmux
   vi-mode
+  nvm
 
   # Syntax highlighting bundle.
   zsh-users/zsh-syntax-highlighting
@@ -111,3 +112,16 @@ alias gcp_prod='gcloud container clusters get-credentials production --project=p
 alias gcp_qc='gcloud container clusters get-credentials qa --project=quality-control-277920 --zone=us-central1-c'
 
 if [ -f '$HOME/.asdf/asdf.sh' ]; then . '$HOME/.asdf/asdf.sh'; fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# opam configuration
+[[ ! -r /home/oneamtu/.opam/opam-init/init.zsh ]] || source /home/oneamtu/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+
+# pyenv initialization
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+export PATH="/home/oneamtu/.local/bin:$PATH"
