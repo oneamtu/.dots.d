@@ -3,14 +3,16 @@ return {
   -- Meta
   { "folke/lazy.nvim" },
 
-  -- Theme
+  -- Theme: solarized8 (truecolor, treesitter & LSP-aware)
   {
-    "altercation/vim-colors-solarized",
+    "lifepillar/vim-solarized8",
+    lazy = false,
+    priority = 1000,
     config = function()
       vim.cmd("syntax enable")
+      vim.opt.termguicolors = true   -- 24-bit color so treesitter highlighting pays off
       vim.opt.background = "dark"
-      vim.opt.termguicolors = false
-      vim.cmd("colorscheme solarized")
+      pcall(vim.cmd, "colorscheme solarized8")
     end,
   },
 
@@ -27,87 +29,78 @@ return {
   { "tpope/vim-rhubarb" },
   { "airblade/vim-gitgutter" },
 
-  -- UI
-  { "Lokaltog/vim-powerline" },
-  { "vim-syntastic/syntastic" },
+  -- UI: statusline (replaces vim-powerline)
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("lualine").setup({ options = { theme = "solarized_dark" } })
+    end,
+  },
 
   -- Editing
   { "tpope/vim-abolish" },
   { "tpope/vim-surround" },
-  { "tpope/vim-endwise" },
-  { "ervandew/supertab" },
-  { "scrooloose/nerdcommenter" },
+  { "tpope/vim-repeat" },           -- '.' support for surround/abolish
   { "Raimondi/delimitMate" },
   { "mg979/vim-visual-multi" },
-  { "vim-scripts/YankRing.vim" },
-
-  -- Snippets
-  { "honza/vim-snippets" },
-
-  -- Navigating
+  -- replaces nerdcommenter (gcc / gc)
   {
-    "ctrlpvim/ctrlp.vim",
+    "numToStr/Comment.nvim",
     config = function()
-      vim.g.ctrlp_show_hidden = 1
-      vim.g.ctrlp_extensions = { "cmdline", "yankring", "menu" }
-      vim.g.ctrlp_user_command = 'rg %s --files --color=never --hidden --glob "!.git/*"'
-      vim.g.ctrlp_use_caching = 0
-      vim.g.ctrlp_tjump_only_silent = 1
-
-      vim.keymap.set("n", "<Leader>f", ":CtrlP<CR>", { silent = true })
-      vim.keymap.set("n", "<c-]>", ":CtrlPtjump<cr>", { noremap = true })
-      vim.keymap.set("v", "<c-]>", ":CtrlPtjumpVisual<cr>", { noremap = true })
+      require("Comment").setup()
     end,
   },
-  { "sgur/ctrlp-extensions.vim" },
-  { "ivalkeen/vim-ctrlp-tjump" },
-  { "bkad/CamelCaseMotion" },
-  { "chaoren/vim-wordmotion" },
+
+  -- Navigating (Telescope replaces ctrlp + yegappan/grep)
+  {
+    "nvim-telescope/telescope.nvim",
+    branch = "0.1.x",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      local builtin = require("telescope.builtin")
+      vim.keymap.set("n", "<Leader>f", builtin.find_files, { silent = true })
+      vim.keymap.set("n", "<Leader>b", builtin.buffers, { silent = true })
+      vim.keymap.set("n", "<Leader>]", builtin.tags, { silent = true })
+      vim.keymap.set("n", "gr", builtin.lsp_references, { silent = true })
+    end,
+  },
+  { "chaoren/vim-wordmotion" },     -- replaces CamelCaseMotion
   { "easymotion/vim-easymotion" },
   { "christoomey/vim-tmux-navigator" },
-  {
-    "yegappan/grep",
-    config = function()
-      vim.g.Grep_Default_Options = "--color=never"
-      vim.g.Grep_Skip_Files = "*.bak *~"
-      vim.g.Grep_Skip_Dirs = ".git .hg .svn"
-    end,
-  },
-  { "preservim/tagbar" },
-  {
-    "benmills/vimux",
-    config = function()
-      vim.g.vroom_use_vimux = 1
-      vim.g.vroom_use_zeus = 1
-      vim.g.vroom_clear_screen = 0
-
-      vim.cmd([[
-        function! VimuxSlime()
-          call VimuxSendText(@v)
-        endfunction
-      ]])
-
-      vim.keymap.set("v", "<Leader>vs", '"vy :call VimuxSlime()<CR>')
-      vim.keymap.set("v", "<Leader>sms", '"vy :call VimuxSlime()<CR>')
-      vim.keymap.set("n", "<Leader>sms", '"vy :call VimuxSlime()<CR>')
-    end,
-  },
 
   -- Universal language file rules
   { "editorconfig/editorconfig-vim" },
 
-  -- Syntax & Languages
+  -- Syntax & highlighting (treesitter covers C/C++, XML, and the langs below)
+  {
+    "nvim-treesitter/nvim-treesitter",
+    branch = "master",
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = {
+          "c", "cpp", "xml", "lua", "vim", "vimdoc",
+          "go", "rust", "json", "markdown", "bash",
+        },
+        auto_install = true,
+        highlight = { enable = true },
+        indent = { enable = true },
+      })
+    end,
+  },
+  -- XML/HTML tag auto-close & edit
+  { "sukima/xmledit" },
+
+  -- Language tooling (LSP/diagnostics handled by nvim-lspconfig below)
   {
     "elzr/vim-json",
     config = function()
       vim.g.vim_json_syntax_conceal = 0
     end,
   },
-  { "fatih/vim-go" },
-  {
-    "rust-lang/rust.vim",
-    ft = "rust",
-  },
+  { "fatih/vim-go", build = ":GoUpdateBinaries" },
+  { "rust-lang/rust.vim", ft = "rust" },
   {
     "racer-rust/vim-racer",
     ft = "rust",
@@ -118,83 +111,10 @@ return {
   { "ARM9/arm-syntax-vim" },
   { "vim-pandoc/vim-pandoc" },
   { "vim-pandoc/vim-pandoc-syntax" },
-  { "tmux-plugins/vim-tmux" },
-  { "ekalinin/Dockerfile.vim" },
-  { "vim-scripts/tpp.vim" },
-  { "pangloss/vim-javascript" },
-  { "mxw/vim-jsx" },
-
-  -- Ruby
-  { "tpope/vim-bundler" },
-  { "vim-ruby/vim-ruby" },
-  { "tpope/vim-rake" },
-  {
-    "AndrewRadev/splitjoin.vim",
-    config = function()
-      vim.keymap.set("n", "<Leader>j", ":SplitjoinJoin<cr>")
-      vim.keymap.set("n", "<Leader>k", ":SplitjoinSplit<cr>")
-    end,
-  },
-  { "jgdavey/vim-blockle" },
-  { "kana/vim-textobj-user" },
-  {
-    "nelstrom/vim-textobj-rubyblock",
-    dependencies = { "kana/vim-textobj-user" },
-  },
-  { "ecomba/vim-ruby-refactoring" },
-  { "skalnik/vim-vroom" },
-  {
-    "tpope/vim-rails",
-    config = function()
-      vim.g.rails_projections = {
-        ["spec/features/*s_spec.rb"] = {
-          command = "feature",
-          affinity = "view",
-        },
-      }
-      vim.g.rails_gem_projections = {
-        factory_girl_rails = {
-          ["spec/factories/*.rb"] = {
-            command = "factory",
-            affinity = "model",
-            alternate = "app/models/{}.rb",
-            related = "db/schema.rb#{plural}",
-            test = "spec/models/{}_spec.rb",
-            template = "FactoryGirl.create(:{})",
-          },
-        },
-      }
-
-      -- Ruby debugging
-      vim.keymap.set("n", "<Leader>d", "obinding.pry<Esc>", { silent = true })
-      -- Ruby list newline expansion
-      vim.keymap.set("n", "<Leader>h", '$v%lohc<CR><CR><Up><C-r>"<Esc>:s/,/,\\r/g<CR>:\'[,\']norm ==<CR>\']\'')
-    end,
-  },
-  { "KurtPreston/vim-autoformat-rails" },
-
-  -- Crystal
-  { "vim-crystal/vim-crystal" },
-
-  -- Clojure
-  { "guns/vim-clojure-static" },
-  { "tpope/vim-fireplace" },
-  { "tpope/vim-classpath" },
-
-  -- LaTeX
-  { "lervag/vimtex" },
 
   -- Other
   { "MikeDacre/tmux-zsh-vim-titles" },
   { "tpope/vim-dispatch" },
-  {
-    "jceb/vim-orgmode",
-    config = function()
-      vim.g.org_agenda_files = { "~/org/work.org" }
-    end,
-  },
-  { "tpope/vim-speeddating" },
-  { "freitass/todo.txt-vim" },
 
   -- LSP & Completion
   {
@@ -221,16 +141,16 @@ return {
           end,
         })
 
-        -- Setup solargraph for Ruby
-        vim.lsp.config.solargraph = {
-          cmd = { vim.fn.expand("$HOME/.asdf/shims/solargraph"), "stdio" },
-          filetypes = { "ruby" },
-          root_markers = { "Gemfile", ".git" },
+        -- C/C++ via clangd (install: apt install clangd / brew install llvm)
+        vim.lsp.config.clangd = {
+          cmd = { "clangd" },
+          filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+          root_markers = { "compile_commands.json", "compile_flags.txt", ".git" },
           capabilities = default_capabilities,
         }
-        vim.lsp.enable("solargraph")
+        vim.lsp.enable("clangd")
 
-        -- Setup rust-analyzer
+        -- rust-analyzer
         vim.lsp.config.rust_analyzer = {
           cmd = { "rust-analyzer" },
           filetypes = { "rust" },
@@ -239,7 +159,7 @@ return {
         }
         vim.lsp.enable("rust_analyzer")
 
-        -- Setup gopls for Go
+        -- gopls
         vim.lsp.config.gopls = {
           cmd = { "gopls" },
           filetypes = { "go", "gomod", "gowork", "gotmpl" },
@@ -260,10 +180,9 @@ return {
           vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, opts)
         end
 
-        lspconfig.solargraph.setup({
+        lspconfig.clangd.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          cmd = { vim.fn.expand("$HOME/.asdf/shims/solargraph"), "stdio" },
         })
 
         lspconfig.rust_analyzer.setup({

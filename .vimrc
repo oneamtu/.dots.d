@@ -124,8 +124,8 @@ call plug#begin('~/.vim/bundle')
 "" Meta
 Plug 'junegunn/vim-plug'                 " :help for vim-plug
 
-"" Theme
-Plug 'altercation/vim-colors-solarized'
+"" Theme: solarized8 (truecolor, degrades to 256/16 on poorer terminals)
+Plug 'lifepillar/vim-solarized8'
 
 "" Git
 Plug 'tpope/vim-fugitive'
@@ -178,14 +178,18 @@ call plug#end()
 " ============================================================================
 syntax enable
 set background=dark
-set t_Co=16
-" colorscheme solarized
+" Use truecolor when the terminal supports it (degrades to 256/16 otherwise)
+if has('termguicolors') && ($COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit')
+  set termguicolors
+endif
+silent! colorscheme solarized8
 
 " ============================================================================
 " Plugin config
 " ============================================================================
 
-" --- lightline: it renders the mode, so hide the default -- INSERT --
+" --- lightline: match solarized, and hide the default -- INSERT -- (it renders mode)
+let g:lightline = { 'colorscheme': 'solarized' }
 set noshowmode
 
 " --- vim-json: turn off quote concealing
