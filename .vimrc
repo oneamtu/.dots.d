@@ -176,13 +176,24 @@ call plug#end()
 " ============================================================================
 " Theme
 " ============================================================================
-syntax enable
-set background=dark
-" Use truecolor when the terminal supports it (degrades to 256/16 otherwise)
-if has('termguicolors') && ($COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit')
+" Force 256 colors minimum
+if &term =~# '256color' || &term =~# 'tmux' || &term =~# 'screen'
+  set t_Co=256
+endif
+
+" Enable truecolor support
+if has('termguicolors')
+  " tmux-256color support - set escape sequences for truecolor
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
-silent! colorscheme solarized8
+
+syntax enable
+set background=dark
+
+" Load desert theme (built-in)
+colorscheme desert
 
 " ============================================================================
 " Plugin config

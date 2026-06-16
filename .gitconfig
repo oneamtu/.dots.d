@@ -1,41 +1,57 @@
 [user]
   name = Octavian Neamțu
   email = octavian.neamtu@generac.com
+
 [color]
   ui = true
+
 [alias]
+  # Common shortcuts
   ci = commit
   st = status
   br = branch
   co = checkout
   p = push -u
+  # Useful extras
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  unstage = reset HEAD --
+  last = log -1 HEAD
+
 [core]
-	editor = nvim
+  editor = nvim
   excludesfile = ~/.gitignore
+
 [pull]
   rebase = true
+
 [push]
-	default = current
-[rerere]
-  enabled = true
+  default = current
+  autoSetupRemote = true
+
 [rebase]
   autostash = true
+
 [stash]
   showPatch = true
+
 [receive]
   fsckObjects = true
-[url "https://github.com/"]
-	insteadOf = ssh://git@github.com/
+
 [init]
-	defaultBranch = main
+  defaultBranch = main
+
 [credential "https://github.com"]
-	helper = 
-	helper = !/usr/bin/gh auth git-credential
-[url "https://"]
-	insteadOf = git://
+  helper =
+  helper = !/usr/bin/gh auth git-credential
+
 [diff]
-	tool = nvimdiff
+  tool = nvimdiff
+
 [merge]
-	tool = nvimdiff
+  tool = nvimdiff
+
 [difftool]
-	prompt = false
+  prompt = false
+
+[rerere]
+  enabled = true

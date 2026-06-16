@@ -1,14 +1,56 @@
 #!/bin/bash
+set -euo pipefail
 
+echo "🚀 Bootstrapping dotfiles..."
+
+# Generate SSH key if missing (with passphrase prompt)
 if [ ! -f "$HOME/.ssh/id_rsa" ]; then
-    ssh-keygen -t rsa -b 4096 -f $HOME/.ssh/id_rsa -N ""
+    echo "Generating SSH key..."
+    ssh-keygen -t ed25519 -f "$HOME/.ssh/id_ed25519" -C "$(whoami)@$(hostname)"
 fi
 
-sudo apt update && sudo apt install -y zsh tmux fzf ripgrep vim curl zip unzip build-essential jq
+# Install required packages
+echo "Installing packages..."
+if ! sudo apt update; then
+    echo "❌ Failed to update package list"
+    exit 1
+fi
 
-mkdir -p $HOME/.antigen/
-curl -L git.io/antigen > $HOME/.antigen/antigen.zsh
+sudo apt install -y \
+    zsh \
+    tmux \
+    fzf \
+    ripgrep \
+    vim \
+    neovim \
+    curl \
+    zip \
+    unzip \
+    build-essential \
+    jq \
+    git \
+    || { echo "❌ Package installation failed"; exit 1; }
 
-sudo chsh -s $(which zsh)
+# Install antigen
+echo "Installing antigen..."
+mkdir -p "$HOME/.antigen/"
+curl -fsSL git.io/antigen > "$HOME/.antigen/antigen.zsh"
 
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugins
+# Install tmux plugin manager
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+    echo "Installing tmux plugin manager..."
+    git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+fi
+
+# Change shell to zsh
+if [ "$SHELL" != "$(which zsh)" ]; then
+    echo "Changing default shell to zsh..."
+    sudo chsh -s "$(which zsh)" "$USER"
+    echo "⚠️  You'll need to log out and back in for the shell change to take effect"
+fi
+
+echo "✅ Bootstrap complete!"
+echo "Next steps:"
+echo "  1. Source the zshrc: source ~/.zshrc"
+echo "  2. Open tmux and install plugins: tmux then <prefix>+I"
+echo "  3. Open vim and install plugins: vim then :PlugInstall"
