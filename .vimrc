@@ -100,10 +100,22 @@ nnoremap <Leader>r :.!sh<CR>
 nnoremap <C-s> :w<CR>
 vnoremap <C-s> <Esc>:w<CR>
 
-" clipboard yank/paste via xsel
-vnoremap <Leader>y :w !xsel -i -b<CR><CR>
-nnoremap <Leader>y "hyiw:silent !echo "<C-r>h" \| xsel -b<CR>:redraw!<CR>
-nnoremap <Leader>p :r !xsel -o -b<CR><CR>
+" Clipboard integration - use system clipboard if available
+if has('clipboard')
+  " Use system clipboard for yank/paste
+  set clipboard=unnamedplus
+else
+  " Fallback to external clipboard tools (xclip/xsel)
+  if executable('xclip')
+    vnoremap <Leader>y :w !xclip -selection clipboard<CR><CR>
+    nnoremap <Leader>y "hyiw:silent !echo "<C-r>h" \| xclip -selection clipboard<CR>:redraw!<CR>
+    nnoremap <Leader>p :r !xclip -selection clipboard -o<CR><CR>
+  elseif executable('xsel')
+    vnoremap <Leader>y :w !xsel -i -b<CR><CR>
+    nnoremap <Leader>y "hyiw:silent !echo "<C-r>h" \| xsel -b<CR>:redraw!<CR>
+    nnoremap <Leader>p :r !xsel -o -b<CR><CR>
+  endif
+endif
 
 " tig on current file
 command! -nargs=0 -bar Tig execute '! tig %'
