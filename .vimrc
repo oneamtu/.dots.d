@@ -100,13 +100,18 @@ nnoremap <Leader>r :.!sh<CR>
 nnoremap <C-s> :w<CR>
 vnoremap <C-s> <Esc>:w<CR>
 
-" Clipboard integration - use system clipboard if available
+" Clipboard integration
 if has('clipboard')
   " Use system clipboard for yank/paste
   set clipboard=unnamedplus
 else
-  " Fallback to external clipboard tools (xclip/xsel)
-  if executable('xclip')
+  " WSL clipboard integration
+  if executable('clip.exe')
+    vnoremap <Leader>y :w !clip.exe<CR><CR>
+    nnoremap <Leader>y "hyiw:silent !echo "<C-r>h" \| clip.exe<CR>:redraw!<CR>
+    nnoremap <Leader>p :r !powershell.exe -command "Get-Clipboard"<CR><CR>
+  " Linux X11 clipboard
+  elseif executable('xclip')
     vnoremap <Leader>y :w !xclip -selection clipboard<CR><CR>
     nnoremap <Leader>y "hyiw:silent !echo "<C-r>h" \| xclip -selection clipboard<CR>:redraw!<CR>
     nnoremap <Leader>p :r !xclip -selection clipboard -o<CR><CR>

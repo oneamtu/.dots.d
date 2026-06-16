@@ -29,6 +29,7 @@ sudo apt install -y \
     build-essential \
     jq \
     git \
+    xclip \
     || { echo "❌ Package installation failed"; exit 1; }
 
 # Install antigen

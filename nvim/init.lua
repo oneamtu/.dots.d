@@ -99,10 +99,31 @@ vim.opt.grepformat = "%f:%l:%c:%m"
 keymap("n", "<Leader>n", ":cn<CR>", { silent = true })
 keymap("n", "<Leader>N", ":cp<CR>", { silent = true })
 
--- Clipboard yank/paste
-keymap("v", "<Leader>y", ":w !xsel -i -b <CR><CR>", { noremap = true })
-keymap("n", "<Leader>y", '"hyiw:silent !echo "<C-r>h" | xsel -b <CR>:redraw!<CR>', { noremap = true })
-keymap("n", "<Leader>p", ":r !xsel -o -b <CR><CR>", { noremap = true })
+-- Clipboard integration
+-- WSL2 clipboard configuration
+if vim.fn.has("wsl") == 1 then
+  vim.g.clipboard = {
+    name = "WslClipboard",
+    copy = {
+      ["+"] = "clip.exe",
+      ["*"] = "clip.exe",
+    },
+    paste = {
+      ["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      ["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    },
+    cache_enabled = 0,
+  }
+end
+
+-- Use system clipboard for all yank/delete/paste operations
+vim.opt.clipboard = "unnamedplus"
+
+-- Additional explicit clipboard shortcuts
+keymap("v", "<Leader>y", '"+y', { noremap = true, desc = "Yank to clipboard" })
+keymap("n", "<Leader>y", '"+yiw', { noremap = true, desc = "Yank word to clipboard" })
+keymap("n", "<Leader>p", '"+p', { noremap = true, desc = "Paste from clipboard" })
+keymap("v", "<Leader>p", '"+p', { noremap = true, desc = "Paste from clipboard" })
 
 -- Open file from same directory
 keymap("n", "<Leader>e", ":e <C-R>=expand('%:p:h') . '/'<CR>", { noremap = true })
