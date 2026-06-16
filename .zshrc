@@ -93,26 +93,6 @@ kubessh() {
   kubectl exec -it "$kube" --namespace="$1" -- /bin/bash
 }
 
-# Claude wrapper - set tmux window name to task description
-claude() {
-  if [[ -n "$TMUX" ]]; then
-    if [[ -n "$1" ]]; then
-      # If task description provided, set window name
-      tmux rename-window "claude: $*"
-      command claude
-      # Restore window name after Claude exits
-      tmux rename-window "$(basename "$PWD")"
-    else
-      # No description, just run claude
-      tmux rename-window "claude"
-      command claude
-      tmux rename-window "$(basename "$PWD")"
-    fi
-  else
-    # Not in tmux, just run claude normally
-    command claude "$@"
-  fi
-}
 
 # Google Cloud SDK
 if [[ -f "$HOME/opt/google-cloud-sdk/path.zsh.inc" ]]; then
