@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Antigen plugin manager
 source $HOME/.antigen/antigen.zsh
 antigen use oh-my-zsh
@@ -16,7 +23,7 @@ antigen bundles <<EOBUNDLES
   zsh-users/zsh-completions
 EOBUNDLES
 
-antigen theme robbyrussell
+antigen theme romkatv/powerlevel10k
 antigen apply
 
 # Shell options
@@ -141,3 +148,6 @@ fi
 
 # Private configurations
 [[ -f "$HOME/.zshrc.private" ]] && source "$HOME/.zshrc.private"
+
+# To customize prompt, run `p10k configure` or edit ~/.dots.d/.p10k.zsh.
+[[ ! -f ~/.dots.d/.p10k.zsh ]] || source ~/.dots.d/.p10k.zsh
